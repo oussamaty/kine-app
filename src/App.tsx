@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigation from './navigation/AppNavigation';
+import { withAppStore } from './redux/store';
 
 const App = () => {
   return (
@@ -10,4 +11,4 @@ const App = () => {
   );
 }
 
-export default App;
+export default withAppStore(App);
