@@ -1,23 +1,10 @@
-import * as React from 'react';
-import { createStore, applyMiddleware, Store, Middleware } from 'redux';
-import thunk, { ThunkMiddleware } from 'redux-thunk';
-import rootReducer, { RootState } from './reducers';
-import { ActionTypes } from './types';
+import { configureStore } from '@reduxjs/toolkit';
+import rootReducer, { RootState } from '@redux/reducers';
 
-const initialState = {};
+export type AppDispatch = typeof store.dispatch
 
-const middleware: Middleware[] = [thunk as ThunkMiddleware<RootState, ActionTypes>];
-
-const store: Store<RootState, ActionTypes> & {
-  dispatch: ThunkDispatch<RootState, void, ActionTypes>;
-} = createStore(rootReducer, initialState, applyMiddleware(...middleware));
-
-export const withAppStore = (Component: React.FC) => {
-    const ComponentWithStore: React.FC = () => (
-        <Provider store={store}>
-            <Component />
-        </Provider>
-    );
-}
+const store = configureStore({
+  reducer: rootReducer,
+});
 
 export default store;

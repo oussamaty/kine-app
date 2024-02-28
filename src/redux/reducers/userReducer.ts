@@ -2,7 +2,7 @@ import {
     UserState,
     UserActionTypes,
     FETCH_USER_PROFILE,
-  } from '../types/userTypes';
+  } from '@redux/types/userTypes';
   
   const initialState: UserState = {
     profile: null,

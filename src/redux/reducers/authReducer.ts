@@ -7,7 +7,7 @@ import {
   LOGOUT_FAILURE,
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE
-} from '../types/authTypes';
+} from '@redux/types/authTypes';
 
 const initialState: AuthState = {
   isAuthenticated: false,

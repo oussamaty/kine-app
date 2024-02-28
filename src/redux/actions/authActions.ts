@@ -1,5 +1,5 @@
 import { ThunkAction } from 'redux-thunk';
-import { RootState } from '../reducers';
+import { RootState } from '@redux/reducers';
 import {
   AuthActionTypes,
   LOGIN_REQUEST,
@@ -12,8 +12,8 @@ import {
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
   User
-} from '../types/authTypes';
-import { fetchUserProfile } from './userActions.ts';
+} from 'redux/types/authTypes';
+import { fetchUserProfile } from 'redux/actions/userActions.ts';
 
 // Synchronous action creators
 
