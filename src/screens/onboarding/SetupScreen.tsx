@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Text, Button } from 'react-native';
-import { SetupScreenProp } from 'src/navigation/types';
+import { SetupScreenProp } from '@navigation/types';
 
 const SetupScreen = ({ navigation }:  SetupScreenProp) => {
     return (

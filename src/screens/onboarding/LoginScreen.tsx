@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Text, Button } from 'react-native';
-import { LoginScreenProp } from 'src/navigation/types';
+import { LoginScreenProp } from '@navigation/types';
 
 const LoginScreen = ({ navigation }: LoginScreenProp) => {
     return (
