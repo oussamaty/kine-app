@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { LoginScreenProp } from 'src/navigation/types';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import Button from 'src/components/Button';
 import FixedScreen from 'src/components/FixedScreen';
 import KineLogo from '@assets/svg/kine_logo.svg';
 import GoogleLogo from '@assets/svg/Google_logo.svg';
 import FacebookLogo from '@assets/svg/Facebook_logo.svg';
 import { loginUser } from 'src/redux/actions/authActions';
-import { useAppDispatch } from 'src/hooks';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
 
 
 const LoginScreen = ({ navigation }: LoginScreenProp) => {
@@ -16,11 +16,18 @@ const LoginScreen = ({ navigation }: LoginScreenProp) => {
     const email = useRef('');
     const password = useRef('');
     const dispash = useAppDispatch();
+    const { isAuthenticated, isLoading, errorAuth } = useAppSelector(state => state.auth);
+
 
 
     const handleSubmit = () => {
 
         dispash(loginUser(email.current, password.current))
+
+
+        if (isAuthenticated) {
+            navigation.navigate('setup');
+        }
 
     };
 
@@ -60,8 +67,10 @@ const LoginScreen = ({ navigation }: LoginScreenProp) => {
 
 
                     </View>
+
+                    {errorAuth && <Text style={styles.ErrorText}>{errorAuth}</Text>}
                     <View style={styles.ButtonLayout}>
-                        <Button style={styles.Button} title="Log in" onPress={handleSubmit} />
+                        <Button style={styles.Button} title={isLoading ? 'Loading' : 'Log in'} onPress={handleSubmit} />
                         <View style={styles.NextText}>
                             <Text style={styles.Paragraph}> Don't Have An Account ?  </Text>
                             <Text style={styles.formLink} onPress={() => navigation.navigate('signup')}> Sign up </Text>
@@ -197,6 +206,12 @@ const styles = StyleSheet.create({
         width: "100%",
         paddingTop: 30,
         gap: 50,
+    },
+
+    ErrorText: {
+        color: 'red',
+        fontSize: 14,
+        fontWeight: '600',
     }
 })
 

@@ -2,6 +2,8 @@
 export interface AuthState {
     isAuthenticated: boolean;
     user: User | null;
+    isLoading: boolean;
+    errorAuth: string | null;
 }
 
 // Models

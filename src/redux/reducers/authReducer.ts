@@ -15,6 +15,8 @@ import {
 const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
+  isLoading: false,
+  errorAuth: null,
 };
 
 const authReducer = (state = initialState, action: AuthActionTypes): AuthState => {
@@ -24,12 +26,22 @@ const authReducer = (state = initialState, action: AuthActionTypes): AuthState =
         ...state,
         isAuthenticated: true,
         user: action.payload,
+        isLoading: false,
+        errorAuth: null,
       };
     case LOGIN_FAILURE:
       return {
         ...state,
         isAuthenticated: false,
         user: null,
+        isLoading: false,
+        errorAuth: action.payload,
+      };
+    case LOGIN_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        errorAuth: null,
       };
     case LOGOUT_SUCCESS:
       return {
