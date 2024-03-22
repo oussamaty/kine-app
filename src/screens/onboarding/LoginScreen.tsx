@@ -55,6 +55,7 @@ const LoginScreen = ({ navigation }: LoginScreenProp) => {
                             placeholderTextColor="#6b7280"
                             style={styles.Input}
                             onChangeText={e => email.current = e}
+                            editable={!isLoading}
                         />
 
                         <TextInput
@@ -64,6 +65,7 @@ const LoginScreen = ({ navigation }: LoginScreenProp) => {
                             style={styles.Input}
                             secureTextEntry={true}
                             onChangeText={e => password.current = e}
+                            editable={!isLoading}
                         />
 
 
@@ -72,7 +74,7 @@ const LoginScreen = ({ navigation }: LoginScreenProp) => {
 
                     {errorAuth && <Text style={styles.ErrorText}>{errorAuth}</Text>}
                     <View style={styles.ButtonLayout}>
-                        <Button style={styles.Button} title={isLoading ? 'Loading' : 'Log in'} onPress={handleSubmit} />
+                        <Button style={styles.Button} title={isLoading ? 'Loading' : 'Log in'} onPress={handleSubmit} disabled={isLoading} />
                         <View style={styles.NextText}>
                             <Text style={styles.Paragraph}> Don't Have An Account ?  </Text>
                             <Text style={styles.formLink} onPress={() => navigation.navigate('signup')}> Sign up </Text>
