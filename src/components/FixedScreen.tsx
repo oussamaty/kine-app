@@ -15,17 +15,15 @@ const FixedScreen: React.FC<FixedScreenProps> = ({ children, style, ...otherProp
 };
 
 const styles = StyleSheet.create({
-    Screen: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "flex-start",
-      alignItems: "flex-start",
-      width: 430,
-      height: 1000,
-      padding: 25,
-      borderRadius: 25,
-      backgroundColor: "#ffffff",
-    }
+  Screen: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#ffffff",
+  }
 });
 
 export default FixedScreen;

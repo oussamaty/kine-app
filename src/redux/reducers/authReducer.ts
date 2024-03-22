@@ -1,4 +1,4 @@
-import { 
+import {
   AuthState,
   AuthActionTypes,
   LOGIN_SUCCESS,
@@ -6,8 +6,11 @@ import {
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
   SIGNUP_SUCCESS,
-  SIGNUP_FAILURE
-} from '@redux/types/authTypes';
+  SIGNUP_FAILURE,
+  LOGIN_REQUEST,
+  LOGOUT_REQUEST,
+  SIGNUP_REQUEST
+} from 'src/redux/types/authTypes';
 
 const initialState: AuthState = {
   isAuthenticated: false,

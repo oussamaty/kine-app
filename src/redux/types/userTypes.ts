@@ -1,4 +1,4 @@
-import  { Gender } from '@constants/enums';
+import { Gender } from 'src/constants/enums';
 
 // State
 export interface UserState {
@@ -21,7 +21,8 @@ export const FETCH_USER_PROFILE = 'FETCH_USER_PROFILE';
 
 export interface FetchUserProfileAction {
     type: typeof FETCH_USER_PROFILE;
+    payload: Profile
 }
 
-export type UserActionTypes = 
+export type UserActionTypes =
     | FetchUserProfileAction;

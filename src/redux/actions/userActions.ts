@@ -1,5 +1,5 @@
 import { ThunkAction } from 'redux-thunk';
-import { RootState } from '@redux/reducers';
+import { RootState } from 'src/redux/reducers';
 import {
   UserActionTypes,
   FETCH_USER_PROFILE,
@@ -7,6 +7,7 @@ import {
 } from 'redux/types/userTypes';
 
 // Synchronous action creators
-export const fetchUserProfile = (): UserActionTypes => ({
-    type: FETCH_USER_PROFILE,
+export const fetchUserProfile = (profile: Profile): UserActionTypes => ({
+  type: FETCH_USER_PROFILE,
+  payload: profile,
 });

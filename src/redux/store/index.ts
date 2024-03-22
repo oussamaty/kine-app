@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import rootReducer, { RootState } from '@redux/reducers';
+import rootReducer, { RootState } from 'src/redux/reducers';
 
 export type AppDispatch = typeof store.dispatch
 

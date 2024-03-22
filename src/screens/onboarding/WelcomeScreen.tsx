@@ -1,34 +1,34 @@
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { WelcomeScreenProp } from '@navigation/types';
+import { WelcomeScreenProp } from 'src/navigation/types';
 import KineLogo from '@assets/svg/kine_logo.svg';
-import FixedScreen from '@components/FixedScreen';
-import Button from '@components/Button';
+import FixedScreen from 'src/components/FixedScreen';
+import Button from 'src/components/Button';
 
 const WelcomeScreen = ({ navigation }: WelcomeScreenProp) => {
-  return (
-    <FixedScreen style={styles.Screen}>
-        <View style={styles.Layout}>
-            <View style={styles.LogoWrapper}>
-                <KineLogo color="#000000" width="100%" height="100%" />
+    return (
+        <FixedScreen style={styles.Screen}>
+            <View style={styles.Layout}>
+                <View style={styles.LogoWrapper}>
+                    <KineLogo color="#000000" width="100%" height="100%" />
+                </View>
+                <View style={styles.Content}>
+                    <Text style={styles.Title}>Welcome to Kine</Text>
+                    <Text style={styles.WelcomeMessage}>
+                        Discover a healthier, happier you. Kine is your personal guide to
+                        wellness, offering a seamless way to track your nutrition and
+                        fitness journey.
+                    </Text>
+                </View>
+                <Button title="Get Started" onPress={() => navigation.navigate('login')} />
             </View>
-            <View style={styles.Content}>
-                <Text style={styles.Title}>Welcome to Kine</Text>
-                <Text style={styles.WelcomeMessage}>
-                    Discover a healthier, happier you. Kine is your personal guide to
-                    wellness, offering a seamless way to track your nutrition and
-                    fitness journey.
-                </Text>
-            </View>
-            <Button title="Get Started" onPress={() => navigation.navigate('signup')} />
-        </View>
-    </FixedScreen>
-  )
+        </FixedScreen>
+    )
 };
 
 const styles = StyleSheet.create({
     Screen: {
-        
+
     },
 
     Layout: {
@@ -37,11 +37,10 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         alignItems: "center",
         width: "100%",
-        boxSizing: "border-box",
         paddingTop: 150,
     },
 
-    LogoWrapper: { 
+    LogoWrapper: {
         display: "flex",
         flexDirection: "row",
         justifyContent: "center",
@@ -58,7 +57,7 @@ const styles = StyleSheet.create({
         paddingRight: 5,
         paddingTop: 36,
         paddingBottom: 36,
-        boxSizing: "border-box",
+
     },
 
     Title: {

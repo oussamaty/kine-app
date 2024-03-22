@@ -1,24 +1,29 @@
+import authAPI from 'src/config/api/auth';
 import {
     SignupRequest,
     LoginRequest
-} from '@services/auth/types.ts';
+} from 'src/services/auth/types.ts';
 
 export const signupApi = async ({
-    email: string,
-    password: string
+    email,
+    password
 }: SignupRequest) => {
-    return await plantsApi.post("/signup", {
-      email,
-      password
+    return await authAPI.post("/signup", {
+        email,
+        password
     });
 };
 
 export const loginApi = async ({
-    email: string,
-    password: string
+    email,
+    password,
 }: LoginRequest) => {
-    return await plantsApi.post("/login", {
-      email,
-      password
+    return await authAPI.post("/login", {
+        email,
+        password
     });
+};
+
+export const logoutUserApi = async () => {
+    return await authAPI.post("/logout");
 };

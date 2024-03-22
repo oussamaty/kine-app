@@ -1,19 +1,24 @@
 import { ThunkAction } from 'redux-thunk';
-import { RootState } from '@redux/reducers';
+import { RootState } from 'src/redux/reducers';
 import {
-  AuthActionTypes,
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_FAILURE,
-  LOGOUT_REQUEST,
-  LOGOUT_SUCCESS,
-  LOGOUT_FAILURE,
-  SIGNUP_REQUEST,
-  SIGNUP_SUCCESS,
-  SIGNUP_FAILURE,
-  User
-} from 'redux/types/authTypes';
-import { fetchUserProfile } from 'redux/actions/userActions.ts';
+    AuthActionTypes,
+    LOGIN_SUCCESS,
+    LOGIN_FAILURE,
+    LOGOUT_SUCCESS,
+    LOGOUT_FAILURE,
+    SIGNUP_SUCCESS,
+    SIGNUP_FAILURE,
+    User,
+    LOGIN_REQUEST,
+    LOGOUT_REQUEST,
+    SIGNUP_REQUEST
+} from 'src/redux/types/authTypes';
+
+import { fetchUserProfile } from './userActions.ts';
+import { Profile } from '../types/userTypes';
+import { loginApi, logoutUserApi, signupApi } from 'src/services/auth';
+import { AxiosResponse, AxiosError } from 'axios';
+import { useAppDispatch } from 'src/hooks';
 
 // Synchronous action creators
 
@@ -71,10 +76,15 @@ export const loginUser = (
 ): ThunkAction<void, RootState, unknown, AuthActionTypes> => async dispatch => {
     dispatch(loginRequest());
     try {
-        const [user, profile]: [User, Profile] = await loginUserApi(email, password);
+        const loginUserresponse: AxiosResponse<any> = await loginApi({ email: email, password: password });
+        const user: User = loginUserresponse.data.user;
+        const profile: Profile = loginUserresponse.data.profile;
+
+        const dispatch = useAppDispatch()
         dispatch(loginSuccess(user));
+
         dispatch(fetchUserProfile(profile));
-    } catch (error) {
+    } catch (error: any) {
         dispatch(loginFailure(error.message));
     }
 };
@@ -85,7 +95,7 @@ export const logoutUser = (): ThunkAction<void, RootState, unknown, AuthActionTy
     try {
         await logoutUserApi();
         dispatch(logoutSuccess());
-    } catch (error) {
+    } catch (error: any) {
         dispatch(logoutFailure(error.message));
     }
 };
@@ -97,9 +107,10 @@ export const signupUser = (
 ): ThunkAction<void, RootState, unknown, AuthActionTypes> => async dispatch => {
     dispatch(signupRequest());
     try {
-        const user: User = await signupUserApi(email, password);
+        const signupUserresponse: AxiosResponse<any> = await signupApi({ email: email, password: password })
+        const user: User = signupUserresponse.data.user;
         dispatch(signupSuccess(user));
-    } catch (error) {
+    } catch (error: any) {
         dispatch(signupFailure(error.message));
     }
 };

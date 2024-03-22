@@ -9,7 +9,7 @@ export interface User {
     id: number;
     email: string;
     created_at: Date;
-    toker: string;
+    token: string;
 }
 
 // Action Types
@@ -77,7 +77,7 @@ export interface SignupFailureAction {
 
 
 // All Auth ActionTypes
-export type AuthActionTypes = 
+export type AuthActionTypes =
     | LoginRequestAction
     | LoginSuccessAction
     | LoginFailureAction

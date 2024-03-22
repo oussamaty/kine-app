@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { View, Text, Button } from 'react-native';
-import { SetupScreenProp } from '@navigation/types';
+import { SetupScreenProp } from 'src/navigation/types';
 
-const SetupScreen = ({ navigation }:  SetupScreenProp) => {
+
+const SetupScreen = ({ navigation }: SetupScreenProp) => {
+
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>Setup Screen</Text>
