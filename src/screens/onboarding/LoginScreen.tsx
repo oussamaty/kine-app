@@ -16,7 +16,9 @@ const LoginScreen = ({ navigation }: LoginScreenProp) => {
     const email = useRef('');
     const password = useRef('');
     const dispash = useAppDispatch();
-    const { isAuthenticated, isLoading, errorAuth } = useAppSelector(state => state.auth);
+    const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
+    const isLoading = useAppSelector(state => state.auth.isLoading);
+    const errorAuth = useAppSelector(state => state.auth.errorAuth);
 
 
 
