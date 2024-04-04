@@ -1,16 +1,16 @@
 import React, { ReactNode } from 'react';
-import { View, StyleSheet, ViewStyle } from 'react-native';
+import { StyleSheet, ViewStyle, SafeAreaView } from 'react-native';
 
-interface FixedScreenProps {
+type FixedScreenProps = {
   children: ReactNode;
   style?: ViewStyle;
 }
 
-const FixedScreen: React.FC<FixedScreenProps> = ({ children, style, ...otherProps }) => {
+const FixedScreen: React.FC<FixedScreenProps> = ({ children, style }) => {
   return (
-    <View style={[styles.Screen, style]} {...otherProps}>
+    <SafeAreaView style={[styles.Screen, style]} >
       {children}
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -20,10 +20,9 @@ const styles = StyleSheet.create({
       flexDirection: "column",
       justifyContent: "flex-start",
       alignItems: "flex-start",
-      width: 430,
-      height: 1000,
+      width: '100%',
+      height: '100%',
       padding: 25,
-      borderRadius: 25,
       backgroundColor: "#ffffff",
     }
 });

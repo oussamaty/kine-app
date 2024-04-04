@@ -1,12 +1,25 @@
-import { ThunkAction } from 'redux-thunk';
-import { RootState } from '@redux/reducers';
 import {
   UserActionTypes,
   FETCH_USER_PROFILE,
-  Profile
-} from 'redux/types/userTypes';
+  UPDATE_WEIGHT_GOAL,
+  isWeightGoal,
+  UPDATE_WEIGHT_GOAL_FAILED,
+} from '@redux/types/userTypes';
 
 // Synchronous action creators
 export const fetchUserProfile = (): UserActionTypes => ({
     type: FETCH_USER_PROFILE,
 });
+
+export const updateWeightGoal = (id: string): UserActionTypes => {
+  if (isWeightGoal(id)) {
+    return ({
+      type: UPDATE_WEIGHT_GOAL,
+      payload: id,
+    })
+  }
+  return {
+    type: UPDATE_WEIGHT_GOAL_FAILED,
+    payload: "Id provided is not a valid Weight Goal",
+  }
+};

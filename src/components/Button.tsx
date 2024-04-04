@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ViewStyle } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, ViewStyle, GestureResponderEvent } from 'react-native';
+import { Roboto } from '@theme/font';
 
 interface ButtonProps {
     title: string,
@@ -23,25 +24,20 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         width: 300,
-        height: 62,
-        paddingLeft: 12,
-        paddingRight: 12,
-        paddingTop: 6,
-        paddingBottom: 6,
+        height: 50,
+        paddingHorizontal: 12,
+        paddingVertical: 6,
         borderRadius: 100,
-        boxSizing: "border-box",
-        backgroundColor: "rgba(15,163,177,1)",
+        backgroundColor: "#211951",
     },
+
     ButtonText: {
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        color: "rgba(255,255,255,1)",
+        color: "#ffffff",
         fontSize: 16,
-        lineHeight: 24,
-        fontFamily: "Roboto, sans-serif",
+        fontFamily: Roboto.black,
         fontWeight: "700",
         textAlign: "center",
+        textTransform: 'uppercase',
     },
 });
 

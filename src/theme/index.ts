@@ -23,7 +23,7 @@ const themeCommon = {
     error: "#EF4444",
     warning: "#EAB308",
     shadow: "#DEE2E6",
-    font: Roboto;
+    font: Roboto,
 };
 
 export const lightTheme: Theme = {

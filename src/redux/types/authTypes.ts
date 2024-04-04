@@ -1,44 +1,56 @@
+import { AuthorizeResult, RefreshResult } from "react-native-app-auth";
+
 // State
 export interface AuthState {
     isAuthenticated: boolean;
-    user: User | null;
+    accessToken: string | null;
+    accessTokenExpirationDate: string | null;
+    idToken: string | null;
+    refreshToken: string | null;
+    tokenType: string | null;
+    additionalParameters: Record<string, unknown>;
+    authorizeAdditionalParameters: Record<string, unknown>;
+    isFailure: boolean;
+    errorMessage: string | null;
 }
 
-// Models
-export interface User {
-    id: number;
-    email: string;
-    created_at: Date;
-    toker: string;
+export enum TokenType {
+    ACCESS, REFRESH
 }
 
 // Action Types
 
 // Login
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 
+// Register
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAILURE = 'REGISTER_FAILURE';
+
 // Logout
-export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
-// Signup
-export const SIGNUP_REQUEST = 'SIGNUP_REQUEST';
-export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
-export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
+// Refresh Token
+export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS';
+export const REFRESH_TOKEN_FAILURE = 'REFRESH_TOKEN_FAILURE';
+
+// Revoke Token
+export const REVOKE_TOKEN_SUCCESS = 'REVOKE_TOKEN_SUCCESS';
+export const REVOKE_TOKEN_FAILURE = 'REVOKE_TOKEN_FAILURE';
+
+// Load Token
+export const LOAD_TOKEN_SUCCESS = 'LOAD_TOKEN_SUCCESS';
+export const LOAD_TOKEN_FAILURE = 'LOAD_TOKEN_FAILURE';
+
 
 // Action Type Interfaces
 
 // Login
-export interface LoginRequestAction {
-    type: typeof LOGIN_REQUEST;
-}
-
 export interface LoginSuccessAction {
     type: typeof LOGIN_SUCCESS;
-    payload: User;
+    payload: AuthorizeResult;
 }
 
 export interface LoginFailureAction {
@@ -46,11 +58,18 @@ export interface LoginFailureAction {
     payload: string;
 }
 
-// Logout
-export interface LogoutRequestAction {
-    type: typeof LOGOUT_REQUEST;
+// Register
+export interface RegisterSuccessAction {
+    type: typeof REGISTER_SUCCESS;
+    payload: AuthorizeResult;
 }
 
+export interface RegisterFailureAction {
+    type: typeof REGISTER_FAILURE;
+    payload: string;
+}
+
+// Logout
 export interface LogoutSuccessAction {
     type: typeof LOGOUT_SUCCESS;
 }
@@ -60,30 +79,57 @@ export interface LogoutFailureAction {
     payload: string;
 }
 
-// Signup
-export interface SignupRequestAction {
-    type: typeof SIGNUP_REQUEST;
+// Refresh Token
+export interface RefreshTokenSuccessAction {
+    type: typeof REFRESH_TOKEN_SUCCESS;
+    payload: RefreshResult;
 }
 
-export interface SignupSuccessAction {
-    type: typeof SIGNUP_SUCCESS;
-    payload: User;
+export interface RefreshTokenFailureAction {
+    type: typeof REFRESH_TOKEN_FAILURE;
+    payload: string;
 }
 
-export interface SignupFailureAction {
-    type: typeof SIGNUP_FAILURE;
+// Revoke Token
+export interface RevokeTokenSuccessAction {
+    type: typeof REVOKE_TOKEN_SUCCESS;
+    payload: TokenType;
+}
+
+export interface RevokeTokenFailureAction {
+    type: typeof REVOKE_TOKEN_FAILURE;
+    payload: string;
+}
+
+// Revoke Token
+export interface LoadTokenSuccessAction {
+    type: typeof LOAD_TOKEN_SUCCESS;
+    payload: AuthResultTypes;
+}
+
+export interface LoadTokenFailureAction {
+    type: typeof LOAD_TOKEN_FAILURE;
     payload: string;
 }
 
 
+
 // All Auth ActionTypes
 export type AuthActionTypes = 
-    | LoginRequestAction
     | LoginSuccessAction
     | LoginFailureAction
-    | LogoutRequestAction
+    | RegisterSuccessAction
+    | RegisterFailureAction
     | LogoutSuccessAction
     | LogoutFailureAction
-    | SignupRequestAction
-    | SignupSuccessAction
-    | SignupFailureAction; 
+    | RefreshTokenSuccessAction
+    | RefreshTokenFailureAction
+    | RevokeTokenSuccessAction
+    | RevokeTokenFailureAction
+    | LoadTokenSuccessAction
+    | LoadTokenFailureAction; 
+
+// All Auth Result Types
+export type AuthResultTypes = 
+    | AuthorizeResult
+    | RefreshResult;

@@ -62,5 +62,16 @@
 		<string>Roboto-Thin.ttf</string>
 		<string>Roboto-ThinItalic.ttf</string>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.kine</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.kine</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
