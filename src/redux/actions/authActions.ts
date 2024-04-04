@@ -1,22 +1,21 @@
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '@redux/reducers';
-import { RootState } from '@redux/reducers';
 import {
-  AuthActionTypes,
-  LOGIN_SUCCESS,
-  LOGIN_FAILURE,
-  LOGOUT_SUCCESS,
-  LOGOUT_FAILURE,
-  REFRESH_TOKEN_SUCCESS,
-  REFRESH_TOKEN_FAILURE,
-  REVOKE_TOKEN_SUCCESS,
-  REVOKE_TOKEN_FAILURE,
-  LOAD_TOKEN_SUCCESS,
-  LOAD_TOKEN_FAILURE,
-  TokenType,
-  AuthResultTypes,
-  REGISTER_SUCCESS,
-  REGISTER_FAILURE
+    AuthActionTypes,
+    LOGIN_SUCCESS,
+    LOGIN_FAILURE,
+    LOGOUT_SUCCESS,
+    LOGOUT_FAILURE,
+    REFRESH_TOKEN_SUCCESS,
+    REFRESH_TOKEN_FAILURE,
+    REVOKE_TOKEN_SUCCESS,
+    REVOKE_TOKEN_FAILURE,
+    LOAD_TOKEN_SUCCESS,
+    LOAD_TOKEN_FAILURE,
+    TokenType,
+    AuthResultTypes,
+    REGISTER_SUCCESS,
+    REGISTER_FAILURE
 } from '@redux/types/authTypes';
 import {
     loginUserApi,
@@ -86,7 +85,7 @@ export const revokeTokenFailure = (error: string): AuthActionTypes => ({
 });
 
 // Load Token
-export const loadTokenSuccess = (result: AuthResultTypes ): AuthActionTypes => ({
+export const loadTokenSuccess = (result: AuthResultTypes): AuthActionTypes => ({
     type: LOAD_TOKEN_SUCCESS,
     payload: result,
 });
