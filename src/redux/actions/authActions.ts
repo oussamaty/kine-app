@@ -1,5 +1,6 @@
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '@redux/reducers';
+import { RootState } from '@redux/reducers';
 import {
   AuthActionTypes,
   LOGIN_SUCCESS,
