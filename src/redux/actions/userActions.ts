@@ -4,7 +4,7 @@ import {
   UserActionTypes,
   FETCH_USER_PROFILE,
   Profile
-} from 'redux/types/userTypes';
+} from '@redux/types/userTypes';
 
 // Synchronous action creators
 export const fetchUserProfile = (profile: Profile): UserActionTypes => ({
