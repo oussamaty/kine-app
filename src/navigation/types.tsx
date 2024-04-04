@@ -1,29 +1,25 @@
-import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export type RootStackParamList = {
-    welcome: undefined;
-    signup: undefined;
-    login: undefined;
-    onboarding: undefined;
+export type AuthStackParamList = {
+    Welcome: undefined;
+    Setup: undefined;
 }
 
 export type WelcomeScreenProp = NativeStackScreenProps<
-  RootStackParamList,
-  'welcome'
+  AuthStackParamList,
+  'Welcome'
 >;
 
-export type WelcomeScreenProp = NativeStackScreenProps<
-  RootStackParamList,
-  'signup'
+export type SetupScreenProp = NativeStackScreenProps<
+  AuthStackParamList,
+  'Setup'
 >;
 
-export type WelcomeScreenProp = NativeStackScreenProps<
-  RootStackParamList,
-  'login'
->;
+export type AppStackParamList = {
+  MainFood: undefined;
+}
 
-export type WelcomeScreenProp = NativeStackScreenProps<
-  RootStackParamList,
-  'onboarding'
+export type MainFoodScreenProp = NativeStackScreenProps<
+  AppStackParamList,
+  'MainFood'
 >;
