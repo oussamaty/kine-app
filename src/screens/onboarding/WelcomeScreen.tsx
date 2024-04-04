@@ -4,11 +4,6 @@ import { WelcomeScreenProp } from '@navigation/types';
 import KineLogo from '@assets/svg/kine_logo.svg';
 import FixedScreen from '@components/FixedScreen';
 import Button from '@components/Button';
-import { StyleSheet, Text, View } from 'react-native';
-import { WelcomeScreenProp } from '@navigation/types';
-import KineLogo from '@assets/svg/kine_logo.svg';
-import FixedScreen from '@components/FixedScreen';
-import Button from '@components/Button';
 
 const WelcomeScreen = ({ navigation }: WelcomeScreenProp) => {
 
