@@ -1,8 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type AuthStackParamList = {
-    Welcome: undefined;
-    Setup: undefined;
+  Welcome: undefined;
+  Setup: undefined;
 }
 
 export type WelcomeScreenProp = NativeStackScreenProps<
@@ -17,9 +17,15 @@ export type SetupScreenProp = NativeStackScreenProps<
 
 export type AppStackParamList = {
   MainFood: undefined;
+  ProfileOptions: undefined;
 }
 
 export type MainFoodScreenProp = NativeStackScreenProps<
   AppStackParamList,
   'MainFood'
+>;
+
+export type ProfileOptionsScreenProp = NativeStackScreenProps<
+  AppStackParamList,
+  'ProfileOptions'
 >;

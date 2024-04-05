@@ -8,16 +8,16 @@ import AppNavigation from '@navigation/AppNavigation';
 import { RootState } from '@redux/reducers';
 
 const Navigation: React.FC = () => {
-    const dispatch = useAppDispatch();
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
-    
-    useEffect(() => {
-      dispatch(loadToken());
-    }, [])
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
 
-    return  (
-        isAuthenticated === null ? <AppNavigation />: <AuthNavigation />
-    );
+  useEffect(() => {
+    dispatch(loadToken());
+  }, [])
+
+  return (
+    isAuthenticated === null ? <AppNavigation /> : <AppNavigation />
+  );
 }
 
 export default Navigation;
