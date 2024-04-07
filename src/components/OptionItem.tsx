@@ -15,7 +15,7 @@ type OptionItemProps = {
 const OptionItem: React.FC<OptionItemProps> = ({ title, icon, nextButton, onPress }) => {
 
     return (
-        <View style={styles.Header}>
+        <TouchableOpacity style={styles.Header} onPress={onPress}>
             {
                 icon ?
                     <View style={styles.IconWrapper}>
@@ -33,12 +33,12 @@ const OptionItem: React.FC<OptionItemProps> = ({ title, icon, nextButton, onPres
             }
             {
                 nextButton === false ? <></> :
-                    <TouchableOpacity style={styles.HeadernextButton} onPress={onPress}>
+                    <View style={styles.HeadernextButton} >
                         <Icon style={styles.IconSwitch} Source={ChevronRight} />
-                    </TouchableOpacity>
+                    </View>
             }
 
-        </View>
+        </TouchableOpacity>
     )
 }
 

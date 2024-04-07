@@ -18,6 +18,9 @@ export type SetupScreenProp = NativeStackScreenProps<
 export type AppStackParamList = {
   MainFood: undefined;
   ProfileOptions: undefined;
+  EditProfile: undefined;
+  AccountSettings: undefined;
+  Settings: undefined;
 }
 
 export type MainFoodScreenProp = NativeStackScreenProps<
@@ -28,4 +31,19 @@ export type MainFoodScreenProp = NativeStackScreenProps<
 export type ProfileOptionsScreenProp = NativeStackScreenProps<
   AppStackParamList,
   'ProfileOptions'
+>;
+
+export type EditProfileScreenProp = NativeStackScreenProps<
+  AppStackParamList,
+  'EditProfile'
+>;
+
+export type AccountSettingsScreenProp = NativeStackScreenProps<
+  AppStackParamList,
+  'AccountSettings'
+>;
+
+export type SettingsScreenProp = NativeStackScreenProps<
+  AppStackParamList,
+  'Settings'
 >;
