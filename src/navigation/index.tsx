@@ -5,6 +5,7 @@ import { useAppDispatch } from '@hooks';
 import { loadToken } from '@redux/actions/authActions';
 import AuthNavigation from '@navigation/AuthNavigation';
 import AppNavigation from '@navigation/AppNavigation';
+import BottomBar from '@navigation/BottomBar';
 import { RootState } from '@redux/reducers';
 
 const Navigation: React.FC = () => {
@@ -16,7 +17,7 @@ const Navigation: React.FC = () => {
   }, [])
 
   return (
-    isAuthenticated === null ? <AuthNavigation /> : <AppNavigation />
+    isAuthenticated === null ? <BottomBar /> : <BottomBar />
   );
 }
 

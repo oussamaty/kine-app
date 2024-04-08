@@ -1,20 +1,20 @@
 import * as React from 'react';
-import { StyleSheet, GestureResponderEvent, ViewStyle } from 'react-native';
+import { StyleSheet, ViewStyle } from 'react-native';
 import { useState } from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 
 type DropdownOption = {
-    label: string;
-    value: string;
+    label: string,
+    value: string,
 };
 
 type DropdownPickerProps = {
     currentOption: string,
-    options: DropdownOption[]
+    options: DropdownOption[],
     style?: ViewStyle,
     styleDropDown?: ViewStyle,
-}
+};
 
 const DropdownPicker: React.FC<DropdownPickerProps> = ({ options, currentOption, style, styleDropDown }) => {
 

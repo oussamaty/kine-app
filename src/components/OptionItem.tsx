@@ -37,7 +37,6 @@ const OptionItem: React.FC<OptionItemProps> = ({ title, icon, nextButton, onPres
                         <Icon style={styles.IconSwitch} Source={ChevronRight} />
                     </View>
             }
-
         </TouchableOpacity>
     )
 }

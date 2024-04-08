@@ -1,42 +1,109 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { SettingsScreenProp } from '@navigation/types';
-import Icon from '@screens/profile/components/Icon';
-import Home from '@assets/icons/home.svg';
-import Food from '@assets/icons/food.svg';
-import Activity from '@assets/icons/activity.svg';
-import MealPlan from '@assets/icons/meal-plan.svg';
-import Profile from '@assets/icons/profile.svg';
+import ScreenHeader from '@components/ScreenHeader';
+import { Roboto } from 'src/theme/font';
+import SettingsItem from './components/SettingsItem';
+
 
 
 const SettingsScreen = ({ navigation }: SettingsScreenProp) => {
 
 
     return (
-        <View style={styles.IconWrapper}>
-            <Icon Source={Home} title="Home" ></Icon>
-            <Icon Source={Food} title="Food"></Icon>
-            <Icon Source={Activity} title="Activity" ></Icon>
-            <Icon Source={MealPlan} title="Meal Plan" ></Icon>
-            <Icon Source={Profile} title="Profile"></Icon>
+        <View style={styles.Screen}>
+            <ScreenHeader title={"Settings"} onPress={() => navigation.navigate("ProfileOptions")} />
+            <View style={styles.Layout}>
+                <View style={styles.TextContainer}>
+                    <Text style={styles.HeaderText}> Measurements </Text>
+                </View>
+                <SettingsItem content='Weight Units' unit='Kg'></SettingsItem>
+                <SettingsItem content='Height Units' unit='cm'></SettingsItem>
+                <SettingsItem content='Liquid Units' unit='Liters'></SettingsItem>
+                <SettingsItem content='Energey Units' unit='Kcal'></SettingsItem>
+            </View>
+            <View style={styles.Layout}>
+                <View style={styles.TextContainer}>
+                    <Text style={styles.HeaderText}> Data Synchronization </Text>
+                </View>
+                <SettingsItem content='Sync with Wearables'></SettingsItem>
+                <SettingsItem content='Health App Integration'></SettingsItem>
+                <SettingsItem content='Sync Frequency' unit='Everday'></SettingsItem>
+            </View>
+            <View style={styles.Layout}>
+                <View style={styles.TextContainer}>
+                    <Text style={styles.HeaderText}> Privacy Settings </Text>
+                </View>
+                <SettingsItem content='Data Sharing' unit='Private'></SettingsItem>
+                <SettingsItem content='Social Media Connec...'></SettingsItem>
+            </View>
+            <View style={styles.Layout}>
+                <View style={styles.TextContainer}>
+                    <Text style={styles.HeaderText}> Notifications </Text>
+                </View>
+            </View>
         </View>
     )
 };
 
 const styles = StyleSheet.create({
 
+    Screen: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        width: "100%",
+        padding: 0,
+        gap: 12,
+        paddingTop: 16,
+    },
 
-    IconWrapper: {
-        position: 'absolute',
-        bottom: 0,
-        width: '100%',
-        height: '10%',
-        backgroundColor: '#343A40',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        paddingVertical: 10,
-    }
+    Layout: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        width: "100%",
+        padding: 0,
+        gap: 0,
+        paddingTop: 16,
+    },
 
+
+    TextContainer: {
+        width: "100%",
+        paddingHorizontal: 20,
+    },
+
+    HeaderText: {
+        fontSize: 28,
+        fontFamily: Roboto.black,
+        fontWeight: "800",
+        textAlign: "left",
+        color: '#000000',
+    },
+
+    FieldLayout: {
+        display: "flex",
+        gap: 4,
+    },
+
+    Input: {
+        height: 45,
+        width: 320,
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 8,
+    },
+
+    Text: {
+        fontSize: 16,
+        fontFamily: Roboto.black,
+        fontWeight: "800",
+        textAlign: "left",
+        color: '#000000',
+    },
 
 });
 
