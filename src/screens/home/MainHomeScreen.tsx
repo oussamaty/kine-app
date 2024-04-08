@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { MainActivityProp } from '@navigation/types';
+import { MainHomeProp } from '@navigation/types';
 import FixedScreen from '@components/FixedScreen';
 import ScreenHeader from '@components/ScreenHeader';
 
 
-const MainActivityScreen = ({ navigation }: MainActivityProp) => {
+const MainHomeScreen = ({ navigation }: MainHomeProp) => {
 
 
     return (
         <FixedScreen style={styles.Layout}>
-            <ScreenHeader title={"Activity"} backButton={false} />
+            <ScreenHeader title={"Home"} backButton={false} />
         </FixedScreen>
     )
 };
@@ -30,4 +30,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default MainActivityScreen;
+export default MainHomeScreen;
