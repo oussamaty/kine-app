@@ -1,6 +1,5 @@
-
-export enum Gender = {
-    MALE = 'male',
-    FEMALE = 'female',
-    NON_SPECIFIED = 'non_specified'
+export enum Gender {
+    MALE = "Male",
+    FEMALE = "Female",
+    NON_SPECIFIED = "Prefer Not"
 }

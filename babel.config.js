@@ -10,7 +10,9 @@ module.exports = {
           '@components': './src/components',
           '@config': './src/config',
           '@constants': './src/constants',
+          '@db': './src/db',
           '@hooks': './src/hooks',
+          '@models': './src/models',
           '@navigation': './src/navigation',
           '@redux': './src/redux',
           '@screens': './src/screens',
@@ -20,5 +22,11 @@ module.exports = {
         },
       },
     ],
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ]
   ],
 };

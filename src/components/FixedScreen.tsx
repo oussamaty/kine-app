@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
       alignItems: "flex-start",
       width: '100%',
       height: '100%',
-      padding: 25,
+      padding: 30,
       backgroundColor: "#ffffff",
     }
 });

@@ -8,14 +8,24 @@
       "@components/*": ["./src/components/*"],
       "@config/*": ["./src/config/*"],
       "@constants/*": ["./src/constants/*"],
+      "@db/*": ["./src/db/*"],
       "@hooks/*": ["./src/hooks/*"],
+      "@models/*": ["./src/models/*"],
       "@navigation/*": ["./src/navigation/*"],
       "@redux/*": ["./src/redux/*"],
       "@screens/*": ["./src/screens/*"],
       "@services/*": ["./src/services/*"],
       "@theme/*": ["./src/theme/*"],
       "@utils/*": ["./src/utils/*"]
-    }
+    },
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "lib": ["esnext"],
+    "noImplicitAny": true,
+    "strict": true,
   },
   "include": ["src/**/*", "declaration.d.ts"]
 }

@@ -6,39 +6,46 @@ export interface UserState {
     email: string | null;
     firstName: string | null;
     lastName: string | null;
-    birthDate: Date | null;
+    birthDate: string | null;
     gender: Gender | null;
     height: number | null;
     weight: number | null;
     target: number | null;
-    goal: WeightGoal | null;
+    goal: UserWeightGoalKey | null;
+    activity: UserActivityLevelKey | null;
+    targetDate: string | null;
+    bmr: number | null;
+    tdee: number | null;
+    calories: number | null;
+    error: string | null;
 }
 
-export const FETCH_USER_PROFILE = 'FETCH_USER_PROFILE';
-export const UPDATE_WEIGHT_GOAL = 'UPDATE_WEIGHT_GOAL';
-export const UPDATE_WEIGHT_GOAL_FAILED = 'UPDATE_WEIGHT_GOAL_FAILED';
+export enum UserWeightGoal {
+    lose_weight = 'Lose Weight',
+    maintain_weight = 'Maintain Weight',
+    gain_weight = 'Gain Weight',
+};
+export enum UserActivityLevel {
+    sedentary = 'Sedentary',
+    moderate = 'Moderately Active',
+    active =  'Very Active',
+};
 
-export type WeightGoal = 'lose_weight' | 'maintain_weight' | 'gain_weight';
+export type UserStateKey = keyof UserState;
 
-export const isWeightGoal = (value: string): value is WeightGoal => {
-    return ['lose_weight', 'maintain_weight', 'gain_weight'].includes(value as WeightGoal);
-}
+export type UserWeightGoalKey = keyof typeof UserWeightGoal;
 
-export interface FetchUserProfileAction {
-    type: typeof FETCH_USER_PROFILE;
-}
+export type UserActivityLevelKey = keyof typeof UserActivityLevel;
 
-export interface UpdateWeightGoalAction {
-    type: typeof UPDATE_WEIGHT_GOAL;
-    payload: WeightGoal;
-}
+export const UPDATE_USER_STATE = 'UPDATE_USER_STATE';
 
-export interface UpdateWeightGoalFailedAction {
-    type: typeof UPDATE_WEIGHT_GOAL_FAILED;
-    payload: string;
+export interface UpdateUserState {
+    type: typeof UPDATE_USER_STATE;
+    payload: {
+        key: UserStateKey,
+        value: UserState[UserStateKey]
+    }
 }
 
 export type UserActionTypes = 
-    | FetchUserProfileAction
-    | UpdateWeightGoalAction
-    | UpdateWeightGoalFailedAction;
+    | UpdateUserState;

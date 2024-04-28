@@ -1,16 +1,17 @@
 import * as React from 'react';
-import { StyleSheet, View, ViewStyle } from 'react-native';
+import { ColorValue, StyleSheet, View, ViewStyle } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
 type IconProps = {
     Source: React.FC<SvgProps>;
+    fill?: ColorValue;
     style?: ViewStyle;
 }
 
-const Icon: React.FC<IconProps> = ({ Source, style }) => {
+const Icon: React.FC<IconProps> = ({ Source, fill, style }) => {
     return (
         <View style={[styles.IconWrapper, style]}>
-            <Source color="#000000" width="100%" height="100%" />
+            <Source fill={fill ?? "#000"} width="100%" height="100%" />
         </View>
     )
 }

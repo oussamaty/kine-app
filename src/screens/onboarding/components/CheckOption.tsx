@@ -6,16 +6,15 @@ import RadioCheck from '@components/RadioCheck';
 import { Roboto } from '@theme/font';
 
 export type CheckOptionProps = {
-    id: string;
     content: string;
     active?: boolean;
     icon?: React.FC<SvgProps>;
-    onPress?: (key: string) => void;
+    onPress?: (event: GestureResponderEvent) => void;
 }
 
-const CheckOption: React.FC<CheckOptionProps>  = ({ id, content, active, icon, onPress = () => {} }) => {
+const CheckOption: React.FC<CheckOptionProps>  = ({ content, active, icon, onPress = () => {} }) => {
     return (
-        <TouchableOpacity style={styles.CheckOption} onPress={() => onPress(id)}>
+        <TouchableOpacity style={styles.CheckOption} onPress={onPress}>
             {icon ? <Icon style={styles.CheckOptionIcon} Source={icon} />: <></>}
             <Text style={styles.CheckOptionContent}>
                 { content }

@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ViewStyle, GestureResponderEvent } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, ViewStyle, GestureResponderEvent, TextStyle } from 'react-native';
 import { Roboto } from '@theme/font';
 
 interface ButtonProps {
     title: string,
     style?: ViewStyle;
-    textStyle?: ViewStyle,
+    textStyle?: TextStyle,
     onPress?: (event: GestureResponderEvent) => void;
 }
 
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         color: "#ffffff",
         fontSize: 16,
         fontFamily: Roboto.black,
-        fontWeight: "700",
+        fontWeight: "900",
         textAlign: "center",
         textTransform: 'uppercase',
     },

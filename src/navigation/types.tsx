@@ -1,9 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type AuthStackParamList = {
-    Welcome: undefined;
-    Setup: undefined;
-}
+  Welcome: undefined;
+  Setup: undefined;
+};
 
 export type WelcomeScreenProp = NativeStackScreenProps<
   AuthStackParamList,
@@ -15,11 +15,89 @@ export type SetupScreenProp = NativeStackScreenProps<
   'Setup'
 >;
 
-export type AppStackParamList = {
+export type FoodStackParamList = {
   MainFood: undefined;
-}
+  DailyMeal: undefined;
+  LogFood: undefined;
+  DetailsFood: undefined;
+  CreateFood: undefined;
+};
 
 export type MainFoodScreenProp = NativeStackScreenProps<
-  AppStackParamList,
+  FoodStackParamList,
   'MainFood'
+>;
+
+export type MealFoodScreenProp = NativeStackScreenProps<
+  FoodStackParamList,
+  'DailyMeal'
+>;
+
+export type LogFoodScreenProp = NativeStackScreenProps<
+  FoodStackParamList,
+  'LogFood'
+>;
+
+export type DetailsFoodScreenProp = NativeStackScreenProps<
+  FoodStackParamList,
+  'DetailsFood'
+>;
+
+export type CreateFoodScreenProp = NativeStackScreenProps<
+  FoodStackParamList,
+  'CreateFood'
+>;
+
+export type HomeStackParamList = {
+  MainHome: undefined;
+};
+
+export type MainHomecreenProp = NativeStackScreenProps<
+  HomeStackParamList,
+  'MainHome'
+>;
+
+export type ActivityStackParamList = {
+  MainActivity: undefined;
+};
+
+export type MainActivityScreenProp = NativeStackScreenProps<
+ActivityStackParamList,
+  'MainActivity'
+>;
+
+export type MealStackParamList = {
+  MainMeal: undefined;
+};
+
+export type MainMealScreenProp = NativeStackScreenProps<
+  MealStackParamList,
+  'MainMeal'
+>;
+
+export type ProfileStackParamList = {
+  ProfileOptions: undefined;
+  EditProfile: undefined;
+  AccountSettings: undefined;
+  Settings: undefined;
+};
+
+export type ProfileOptionsScreenProp = NativeStackScreenProps<
+  ProfileStackParamList,
+  'ProfileOptions'
+>;
+
+export type EditProfileScreenProp = NativeStackScreenProps<
+  ProfileStackParamList,
+  'EditProfile'
+>;
+
+export type AccountSettingsScreenProp = NativeStackScreenProps<
+  ProfileStackParamList,
+  'AccountSettings'
+>;
+
+export type SettingsScreenProp = NativeStackScreenProps<
+  ProfileStackParamList,
+  'Settings'
 >;

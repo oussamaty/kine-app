@@ -4,8 +4,9 @@ import { WelcomeScreenProp } from '@navigation/types';
 import KineLogo from '@assets/svg/kine_logo.svg';
 import FixedScreen from '@components/FixedScreen';
 import Button from '@components/Button';
+import { Roboto } from '@theme/font';
 
-const WelcomeScreen = ({ navigation }: WelcomeScreenProp) => {
+const WelcomeScreen: React.FC<WelcomeScreenProp> = ({ navigation }) => {
 
     const getStarted = () => {
         navigation.navigate('Setup');
@@ -42,7 +43,8 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         alignItems: "center",
         width: "100%",
-        paddingTop: 150,
+        paddingTop: 180,
+        gap: 40,
     },
 
     LogoWrapper: { 
@@ -58,20 +60,17 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
         width: "100%",
-        paddingLeft: 5,
-        paddingRight: 5,
-        paddingTop: 36,
-        paddingBottom: 36,
+        paddingHorizontal: 30,
+        gap: 20,
     },
 
     Title: {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        color: "rgba(0,0,0,1)",
-        fontSize: 16,
-        lineHeight: 24,
-        fontFamily: "Roboto, sans-serif",
+        color: "#000",
+        fontSize: 24,
+        fontFamily: Roboto.black,
         fontWeight: "700",
         textAlign: "center",
     },
@@ -80,10 +79,10 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        color: "rgba(0,0,0,1)",
+        color: "#000",
         fontSize: 16,
-        lineHeight: 24,
-        fontFamily: "Inter, sans-serif",
+        lineHeight: 28,
+        fontFamily: Roboto.medium,
         fontWeight: "500",
         textAlign: "center",
     },

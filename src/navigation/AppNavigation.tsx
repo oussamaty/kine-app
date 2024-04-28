@@ -1,20 +1,30 @@
 import * as React from 'react';
-import MainFoodScreen from '@screens/food/MainFoodScreen';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { AppStackParamList } from '@navigation/types';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import HomeNavigation from '@navigation/HomeNavigation';
+import FoodNavigation from '@navigation/FoodNavigation';
+import ActivityNavigation from '@navigation/ActivityNavigation';
+import MealNavigation from '@navigation/MealNavigation';
+import ProfileNavigation from '@navigation/ProfileNavigation';
+import BottomBar from '@navigation/BottomBar';
 
-const AppStack = createNativeStackNavigator<AppStackParamList>();
+const Bar = createBottomTabNavigator();
 
 const AppNavigation: React.FC = () => {
-  return (
-    <AppStack.Navigator
-      initialRouteName="MainFood"
-      screenOptions={() => ({
-        headerShown: false,
-      })}>
-      <AppStack.Screen name="MainFood" component={MainFoodScreen} />
-    </AppStack.Navigator>
-  );
-}
+
+    return (
+        <Bar.Navigator
+            initialRouteName="Home"
+            tabBar={BottomBar}
+            screenOptions={() => ({
+                headerShown: false,
+            })} >
+            <Bar.Screen name="Home" component={HomeNavigation} />
+            <Bar.Screen name="Food" component={FoodNavigation} />
+            <Bar.Screen name="Activity" component={ActivityNavigation} />
+            <Bar.Screen name="Meal" component={MealNavigation} />
+            <Bar.Screen name="Profile" component={ProfileNavigation} />
+        </Bar.Navigator>
+    )
+};
 
 export default AppNavigation;

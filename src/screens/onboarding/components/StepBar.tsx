@@ -39,12 +39,10 @@ const StepBar = ({ steps, active }:  StepBarProps) => {
         <View style={styles.StepBar}>
             {
                 steps.map((number, index) => (
-                    index === steps.length - 1 ? 
-                        <StepNode key={index} number={number} active={number === active} /> :
-                        <>
-                            <StepNode key={index} number={number} active={number === active} />
-                            <StepLine />
-                        </>
+                    <React.Fragment key={index}>
+                        <StepNode key={index} number={number} active={number === active} />
+                        { index !== steps.length - 1 && <StepLine key={-index-1}/>}
+                    </React.Fragment>
                 ))
             }
         </View>

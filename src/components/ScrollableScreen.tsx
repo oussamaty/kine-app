@@ -1,28 +1,35 @@
 import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { ReactNode } from 'react';
+import { View, StyleSheet, ViewStyle, ScrollView, SafeAreaView } from 'react-native';
 
-const ScrollableScreen: React.FC<P> = (Content: React.FC, props: P) => {
+type ScrollableScreenProps = {
+    children: ReactNode;
+    style?: ViewStyle;
+}
+
+const ScrollableScreen: React.FC<ScrollableScreenProps> = ({ children, style }) => {
     return (
-        <View style={styles.Screen}>
-            <Content {...props} />
-        </View>
+        <SafeAreaView style={styles.Container}>
+            <ScrollView contentContainerStyle={[styles.Screen, style]}>
+                {children}
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
+    Container: {
+        flex: 1,
+    },
+
     Screen: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "flex-start",
-      alignItems: "flex-start",
-      width: 430,
-      height: 1000,
-      paddingLeft: 54,
-      paddingRight: 55,
-      paddingTop: 141,
-      paddingBottom: 244,
-      borderRadius: 25,
-      boxSizing: "border-box",
-      backgroundColor: "rgba(255,255,255,1)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
+        padding: 30,
+        backgroundColor: "#ffffff",
     }
 });
+
+export default ScrollableScreen;

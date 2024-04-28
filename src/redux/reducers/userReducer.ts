@@ -1,8 +1,7 @@
 import { 
     UserState,
     UserActionTypes,
-    UPDATE_WEIGHT_GOAL,
-    UPDATE_WEIGHT_GOAL_FAILED,
+    UPDATE_USER_STATE,
   } from '@redux/types/userTypes';
   
   const initialState: UserState = {
@@ -16,20 +15,22 @@ import {
     weight: null,
     target: null,
     goal: null,
+    activity: null,
+    targetDate: null,
+    bmr: null,
+    tdee: null,
+    calories: null,
+    error: null,
   };
   
   const userReducer = (state = initialState, action: UserActionTypes): UserState => {
     switch (action.type) {
-      case UPDATE_WEIGHT_GOAL:
-        return {
+      case UPDATE_USER_STATE:
+        return  {
           ...state,
-          goal: action.payload,
-        }
-      
-      case UPDATE_WEIGHT_GOAL_FAILED:
-        console.log(action.payload);
-        return state;
-      
+          [action.payload.key]: action.payload.value
+        };
+
       default:
         return state;
     }
