@@ -6,16 +6,16 @@ import AuthNavigation from '@navigation/AuthNavigation';
 import AppNavigation from '@navigation/AppNavigation';
 
 const Navigation: React.FC = () => {
-    const dispatch = useAppDispatch();
-    const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
-    
-    useEffect(() => {
-      dispatch(loadToken());
-    }, [])
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
 
-    return  (
-        isAuthenticated !== null ? <AppNavigation />: <AuthNavigation />
-    );
+  useEffect(() => {
+    dispatch(loadToken());
+  }, [])
+
+  return (
+    isAuthenticated === null ? <AppNavigation /> : <AppNavigation />
+  );
 }
 
 export default Navigation;

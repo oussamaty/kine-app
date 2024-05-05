@@ -87,16 +87,16 @@ const SetupScreen: React.FC<SetupScreenProp> = ({ navigation }) => {
   return (
     <FixedScreen>
       <View style={styles.Layout}>
-        <ScreenHeader title={"Setup"} onPress={handleBackPress}/>
+        <ScreenHeader title={"Setup"} onPress={handleBackPress} />
         <StepBar steps={steps} active={step} />
-        { isLoading && <Loading /> }
-        { !isLoading && renderStep() }
-        { !isLoading && 
+        {isLoading && <Loading />}
+        {!isLoading && renderStep()}
+        {!isLoading &&
           <View style={styles.Bottom}>
             <Text style={styles.Disclaimer}>
               We use this information to calculate and provide you with daily personalized recommendations.
             </Text>
-            <Button title={step === maxStep ? "Register": "Next"} style={styles.Button} onPress={handleNextPress}/>
+            <Button title={step === maxStep ? "Register" : "Next"} style={styles.Button} onPress={handleNextPress} />
           </View>
         }
       </View>
