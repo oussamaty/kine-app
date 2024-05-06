@@ -18,7 +18,7 @@ export interface UserState {
     tdee: number | null;
     calories: number | null;
     error: string | null;
-    profilePicture: { uri: string | undefined; } | null;
+    profilePicture: string | undefined;
 }
 
 export enum UserWeightGoal {

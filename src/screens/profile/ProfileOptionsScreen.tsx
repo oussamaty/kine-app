@@ -12,10 +12,9 @@ import PadlockIcon from '@assets/icons/padlock.svg';
 import SettingsIcon from '@assets/icons/settings.svg';
 import FixedScreen from '@components/FixedScreen';
 import { useAppSelector } from '@hooks/index';
-import ProfileImage from 'src/screens/profile/components/ProfileImage';
+import ProfileImage from '@screens/profile/components/ProfileImage';
 
 const ProfileOptionsScreen = ({ navigation }: ProfileOptionsScreenProp) => {
-
 
     const Name = useAppSelector(state => state.user.firstName) + " " + useAppSelector(state => state.user.lastName);
 

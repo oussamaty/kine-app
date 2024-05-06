@@ -11,7 +11,7 @@ import ScrollableScreen from '@components/ScrollableScreen';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import Button from '@components/Button';
 import { persistor } from '@redux/store';
-import { updateUserState } from '@redux/actions/userActions';
+import { calculateTDEE, updateUserState } from '@redux/actions/userActions';
 import Toast from 'react-native-toast-message';
 import ImagePicker from '@screens/profile/components/ImagePicker';
 
@@ -22,6 +22,7 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
     const initialGender = useAppSelector(state => state.user.gender) ?? undefined;
     const initialHeight = useAppSelector(state => state.user.height) ?? undefined;
     const initialWeight = useAppSelector(state => state.user.weight) ?? undefined;
+
     const initalBirthTimestamp = useAppSelector(state => state.user.birthDate ?? undefined)
     const initialBirthDate = initalBirthTimestamp ? new Date(initalBirthTimestamp) : new Date();
 
@@ -48,15 +49,36 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
 
     const handlePress = () => {
 
-        if (initialFirstName !== firstNameRef.current) { dispatch(updateUserState("firstName", firstNameRef.current as string)); };
-        if (initialLastName !== lastNameRef.current) { dispatch(updateUserState("lastName", lastNameRef.current as string)); };
-        if (initialGender !== genderRef.current) { dispatch(updateUserState("gender", genderRef.current ?? Gender.NON_SPECIFIED)); };
-        if (initialHeight !== heightRef.current) { dispatch(updateUserState("height", heightRef.current as number)); };
-        if (initialWeight !== weightRef.current) { dispatch(updateUserState("weight", weightRef.current as number)); };
-        if (initalBirthTimestamp !== birthDateRef.current) { dispatch(updateUserState("birthDate", birthDateRef.current?.toISOString() as string)); };
+        let wasUpdated = false;
+
+        if (initialFirstName !== firstNameRef.current) {
+            dispatch(updateUserState("firstName", firstNameRef.current as string));
+        };
+        if (initialLastName !== lastNameRef.current) {
+            dispatch(updateUserState("lastName", lastNameRef.current as string));
+        };
+        if (initialGender !== genderRef.current) {
+            dispatch(updateUserState("gender", genderRef.current ?? Gender.NON_SPECIFIED));
+            wasUpdated = true;
+        };
+        if (initialHeight !== heightRef.current) {
+            dispatch(updateUserState("height", heightRef.current as number));
+            wasUpdated = true;
+        };
+        if (initialWeight !== weightRef.current) {
+            dispatch(updateUserState("weight", weightRef.current as number));
+            wasUpdated = true;
+        };
+        if (initalBirthTimestamp !== birthDateRef.current) {
+            dispatch(updateUserState("birthDate", birthDateRef.current?.toISOString() as string));
+            wasUpdated = true;
+        };
 
         setTimeout(() => {
             persistor.persist();
+            if (wasUpdated) {
+                dispatch(calculateTDEE());;
+            };
         }, 100);
 
         Toast.show({
@@ -129,6 +151,7 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
 };
 
 const styles = StyleSheet.create({
+
     Layout: {
         display: "flex",
         flexDirection: "column",
@@ -156,8 +179,6 @@ const styles = StyleSheet.create({
         paddingTop: 20,
     },
 
-
-
     Input: {
     },
 
@@ -176,9 +197,6 @@ const styles = StyleSheet.create({
     ButtonText: {
         color: '#211951',
     },
-
-
-
 
 });
 
