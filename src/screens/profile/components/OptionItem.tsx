@@ -7,19 +7,19 @@ import { SvgProps } from 'react-native-svg';
 
 type OptionItemProps = {
     title?: string,
-    icon?: React.FC<SvgProps>,
+    IconSrc?: React.FC<SvgProps>,
     nextButton?: boolean,
     onPress?: (event: GestureResponderEvent) => void;
 }
 
-const OptionItem: React.FC<OptionItemProps> = ({ title, icon, nextButton, onPress }) => {
+const OptionItem: React.FC<OptionItemProps> = ({ title, IconSrc, nextButton, onPress }) => {
 
     return (
         <TouchableOpacity style={styles.Header} onPress={onPress}>
             {
-                icon ?
+                IconSrc ?
                     <View style={styles.IconWrapper}>
-                        <Icon Source={icon} style={styles.Icon} />
+                        <Icon style={styles.Icon} Source={IconSrc} fill="#0FA3B1" />
                     </View>
                     :
                     <></>
@@ -75,6 +75,8 @@ const styles = StyleSheet.create({
     },
 
     IconWrapper: {
+
+        alignItems: 'center',
         display: "flex",
         flexDirection: "row",
         justifyContent: "center",
@@ -82,11 +84,12 @@ const styles = StyleSheet.create({
         height: 45,
         borderRadius: 10,
         overflow: 'hidden',
+        backgroundColor: "#B5E2FA",
     },
 
     Icon: {
-        width: 45,
-        height: 45,
+        width: 35,
+        height: 35,
         borderRadius: 10,
         overflow: 'hidden',
     },

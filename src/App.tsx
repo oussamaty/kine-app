@@ -5,6 +5,9 @@ import { store, persistor } from '@redux/store';
 import Navigation from '@navigation/index';
 import { PersistGate } from 'redux-persist/integration/react';
 import SplashScreen from '@components/SplashScreen';
+import Toast from 'react-native-toast-message';
+import { ToastConfig } from '@config/toast/toast';
+
 
 const App: React.FC = () => {
 
@@ -14,6 +17,7 @@ const App: React.FC = () => {
         <NavigationContainer>
           <Navigation />
         </NavigationContainer>
+        <Toast config={ToastConfig} />
       </PersistGate>
     </Provider>
   );

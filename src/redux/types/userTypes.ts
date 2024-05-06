@@ -1,4 +1,4 @@
-import  { Gender } from '@constants/enums';
+import { Gender } from '@constants/enums';
 
 // State
 export interface UserState {
@@ -18,6 +18,7 @@ export interface UserState {
     tdee: number | null;
     calories: number | null;
     error: string | null;
+    profilePicture: string | undefined;
 }
 
 export enum UserWeightGoal {
@@ -28,7 +29,7 @@ export enum UserWeightGoal {
 export enum UserActivityLevel {
     sedentary = 'Sedentary',
     moderate = 'Moderately Active',
-    active =  'Very Active',
+    active = 'Very Active',
 };
 
 export type UserStateKey = keyof UserState;
@@ -47,5 +48,5 @@ export interface UpdateUserState {
     }
 }
 
-export type UserActionTypes = 
+export type UserActionTypes =
     | UpdateUserState;
