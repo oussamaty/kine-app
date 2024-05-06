@@ -2,7 +2,6 @@ import * as React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { ProfileOptionsScreenProp } from '@navigation/types';
 import ScreenHeader from '@components/ScreenHeader';
-import NoProfilePicture from '@assets/icons/no_profile_picture.svg';
 import { Roboto } from '@theme/font';
 import OptionItem from '@screens/profile/components/OptionItem';
 import UserIcon from '@assets/icons/user.svg'
@@ -13,17 +12,36 @@ import PadlockIcon from '@assets/icons/padlock.svg';
 import SettingsIcon from '@assets/icons/settings.svg';
 import FixedScreen from '@components/FixedScreen';
 import { useAppSelector } from '@hooks/index';
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ProfileImage from '@screens/profile/components/ProfileImage';
 
 const ProfileOptionsScreen = ({ navigation }: ProfileOptionsScreenProp) => {
+
+    const [profilePic, setProfilePic] = useState(null);
+
+    useEffect(() => {
+        const loadProfilePic = async () => {
+            try {
+                const storedPic = await AsyncStorage.getItem('profilePic');
+                if (storedPic) {
+                    const parsedPic = JSON.parse(storedPic);
+                    setProfilePic(parsedPic);
+                }
+            } catch (error) {
+                console.error('Error loading profile pic:', error);
+            }
+        };
+
+        loadProfilePic();
+    }, []);
 
     const initialFirstName = useAppSelector(state => state.user.firstName)
 
     return (
         <FixedScreen style={styles.Layout}>
             <ScreenHeader title={"Profile"} backButton={false} />
-            <View style={styles.PictureWrapper}>
-                <NoProfilePicture color="#000000" width="100%" height="100%" />
-            </View>
+            <ProfileImage style={styles.PictureWrapper} />
             <Text style={styles.Name}>{initialFirstName}</Text>
             <View style={styles.Options}>
                 <OptionItem
@@ -66,7 +84,6 @@ const styles = StyleSheet.create({
     },
 
     Options: {
-
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",

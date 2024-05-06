@@ -72,7 +72,7 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
         <ScrollableScreen style={styles.Layout} >
             <ScreenHeader title={"Edit Profile"} onPress={() => navigation.navigate("ProfileOptions")} />
             <View style={styles.PictureWrapper}>
-                <ImagePicker defaultText="Select a Profile Picture" />
+                <ImagePicker />
             </View>
             <View style={styles.FieldLayout}>
                 <LabelInput

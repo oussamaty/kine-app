@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, Image, Text, StyleSheet, View } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NoProfilePicture from '@assets/icons/no_profile_picture.svg';
 
-const ImagePicker = ({ defaultText = 'Choose Profile Pic', style = {} }) => {
+const ImagePicker = ({ style = {} }) => {
     const [profilePic, setProfilePic] = useState(null);
 
     useEffect(() => {
@@ -51,7 +52,7 @@ const ImagePicker = ({ defaultText = 'Choose Profile Pic', style = {} }) => {
                 {profilePic ? (
                     <Image source={profilePic} style={styles.profilePic} />
                 ) : (
-                    <Text style={styles.text}>{defaultText}</Text>
+                    <NoProfilePicture color="#000000" width="100%" height="100%" />
                 )}
             </TouchableOpacity>
         </View>
@@ -66,12 +67,9 @@ const styles = StyleSheet.create({
     profilePic: {
         width: 200,
         height: 200,
-        borderRadius: 100, // Circular image
+        borderRadius: 100,
     },
-    text: {
-        color: '#007BFF',
-        fontSize: 18,
-    },
+
 });
 
 export default ImagePicker;
