@@ -1,61 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, Image, Text, StyleSheet, View } from 'react-native';
+import React from 'react';
+import { TouchableOpacity, Image, StyleSheet, View } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import NoProfilePicture from '@assets/icons/no_profile_picture.svg';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { updateUserState } from '@redux/actions/userActions';
+import { persistor } from '@redux/store';
 
 const ImagePicker = ({ style = {} }) => {
-    const [profilePic, setProfilePic] = useState(null);
 
-    useEffect(() => {
-        const loadProfilePic = async () => {
-            try {
-                const storedPic = await AsyncStorage.getItem('profilePic');
-                if (storedPic) {
-                    const parsedPic = JSON.parse(storedPic);
-                    setProfilePic(parsedPic);
-                }
-            } catch (error) {
-                console.error('Error loading profile pic:', error);
-            }
-        };
-
-        loadProfilePic();
-    }, []);
+    const profilePic = useAppSelector((state) => state.user.profilePicture);
+    const dispatch = useAppDispatch();
 
     const selectProfilePic = () => {
-        const options = {
-            mediaType: 'photo',
-        };
 
-        launchImageLibrary(options, async (response) => {
+        launchImageLibrary({ mediaType: 'photo' }, (response) => {
             if (response.didCancel) {
                 console.log('User cancelled image picker');
             } else if (response.errorCode) {
                 console.error('ImagePicker Error:', response.errorMessage);
-            } else if (response.assets) {
-                const selectedImage = { uri: response.assets[0].uri };
+            } else if (response.assets && response.assets.length > 0) {
+                const asset = response.assets[0];
+                if (asset.uri) {
+                    const selectedImage = { uri: response.assets[0].uri };
 
-                try {
-                    await AsyncStorage.setItem('profilePic', JSON.stringify(selectedImage));
-                    setProfilePic(selectedImage);
-                } catch (error) {
-                    console.error('Error storing profile pic:', error);
+                    try {
+                        dispatch(updateUserState("profilePicture", selectedImage));
+                        setTimeout(() => { persistor.persist() }, 100);
+                    } catch (error) {
+                        console.error('Error storing profile pic:', error);
+                    }
+                } else {
+                    console.error('Image does not have a valid URI');
                 }
             }
         });
     };
 
     return (
-        <View style={[styles.container, style]}>
-            <TouchableOpacity onPress={selectProfilePic}>
-                {profilePic ? (
-                    <Image source={profilePic} style={styles.profilePic} />
-                ) : (
+        <TouchableOpacity onPress={selectProfilePic}>
+            <View style={[styles.container, style]}>
+                {profilePic === null ? (
                     <NoProfilePicture color="#000000" width="100%" height="100%" />
+                ) : (
+                    <Image source={profilePic} style={styles.profilePic} />
                 )}
-            </TouchableOpacity>
-        </View>
+            </View>
+        </TouchableOpacity>
+
     );
 };
 
@@ -69,7 +60,7 @@ const styles = StyleSheet.create({
         height: 200,
         borderRadius: 100,
     },
-
 });
 
 export default ImagePicker;
+

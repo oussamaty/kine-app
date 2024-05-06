@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { EditProfileScreenProp } from '@navigation/types';
-import NoProfilePicture from '@assets/icons/no_profile_picture.svg';
 import ScreenHeader from '@components/ScreenHeader';
 import { useRef } from 'react';
 import { Gender } from '@constants/enums'
@@ -71,9 +70,7 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
     return (
         <ScrollableScreen style={styles.Layout} >
             <ScreenHeader title={"Edit Profile"} onPress={() => navigation.navigate("ProfileOptions")} />
-            <View style={styles.PictureWrapper}>
-                <ImagePicker />
-            </View>
+            <ImagePicker style={styles.PictureWrapper} />
             <View style={styles.FieldLayout}>
                 <LabelInput
                     valueRef={firstNameRef}
