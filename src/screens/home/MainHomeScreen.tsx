@@ -6,7 +6,7 @@ import { MainHomecreenProp } from '@navigation/types';
 const MainHomeScreen: React.FC<MainHomecreenProp> = ({ navigation }) => {
     return (
         <FixedScreen>
-            <ScreenHeader title='Home'/>
+            <ScreenHeader title='Home' />
         </FixedScreen>
     )
 }

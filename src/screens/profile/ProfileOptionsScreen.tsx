@@ -2,42 +2,43 @@ import * as React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { ProfileOptionsScreenProp } from '@navigation/types';
 import ScreenHeader from '@components/ScreenHeader';
-import NoProfilePicture from '@assets/icons/no_profile_picture.svg';
 import { Roboto } from '@theme/font';
 import OptionItem from '@screens/profile/components/OptionItem';
-import user from '@assets/icons/user.svg'
-import logout from '@assets/icons/logout.svg';
-import target from '@assets/icons/target.svg';
-import subscribe from '@assets/icons/subscribe.svg';
-import padlock from '@assets/icons/padlock.svg';
-import settings from '@assets/icons/settings.svg';
+import UserIcon from '@assets/icons/user.svg'
+import LogoutIcon from '@assets/icons/logout.svg';
+import TargetIcon from '@assets/icons/target.svg';
+import SubscribeIcon from '@assets/icons/subscribe.svg';
+import PadlockIcon from '@assets/icons/padlock.svg';
+import SettingsIcon from '@assets/icons/settings.svg';
 import FixedScreen from '@components/FixedScreen';
+import { useAppSelector } from '@hooks/index';
+import ProfileImage from '@screens/profile/components/ProfileImage';
 
 const ProfileOptionsScreen = ({ navigation }: ProfileOptionsScreenProp) => {
+
+    const Name = useAppSelector(state => state.user.firstName) + " " + useAppSelector(state => state.user.lastName);
+
     return (
         <FixedScreen style={styles.Layout}>
             <ScreenHeader title={"Profile"} backButton={false} />
-            <View style={styles.PictureWrapper}>
-                <NoProfilePicture color="#000000" width="100%" height="100%" />
-            </View>
-            <Text style={styles.Name}>Maleen Hawkins</Text>
+            <ProfileImage style={styles.PictureWrapper} />
+            <Text style={styles.Name}>{Name}</Text>
             <View style={styles.Options}>
                 <OptionItem
                     title={"Edit Profile"}
-                    icon={user}
+                    IconSrc={UserIcon}
                     onPress={() => { navigation.navigate('EditProfile'); }} />
                 <OptionItem
                     title={"Set Goals"}
-                    icon={target}
-                />
-                <OptionItem title={"Manage Subscriptions"} icon={subscribe} />
-                <OptionItem title={"Settings"} icon={settings}
+                    IconSrc={TargetIcon} />
+                <OptionItem title={"Manage Subscriptions"} IconSrc={SubscribeIcon} />
+                <OptionItem title={"Settings"} IconSrc={SettingsIcon}
                     onPress={() => { navigation.navigate('Settings'); }} />
                 <OptionItem
                     title={"Account"}
-                    icon={padlock}
+                    IconSrc={PadlockIcon}
                     onPress={() => { navigation.navigate('AccountSettings'); }} />
-                <OptionItem title={"Log Out"} icon={logout} />
+                <OptionItem title={"Log Out"} IconSrc={LogoutIcon} />
             </View>
         </FixedScreen>
     );
@@ -63,7 +64,6 @@ const styles = StyleSheet.create({
     },
 
     Options: {
-
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",

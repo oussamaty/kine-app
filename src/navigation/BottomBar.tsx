@@ -22,9 +22,9 @@ type BottomBarItemProps = {
 const BottomBarItem: React.FC<BottomBarItemProps> = ({ name, active, label, Icon, onPress, style }) => {
 
     return (
-        <TouchableOpacity style={[styles.Item, active ? styles.ItemActive: styles.ItemInactive, style]} onPress={(event: GestureResponderEvent) => onPress(name, event)}>
-            <Icon style={styles.Icon} fill={active ? "#F7A072": "#fff"} />
-            <Text style={[styles.Label, active ? styles.LabelActive: styles.LabelInactive]}> {label} </Text>
+        <TouchableOpacity style={[styles.Item, active ? styles.ItemActive : styles.ItemInactive, style]} onPress={(event: GestureResponderEvent) => onPress(name, event)}>
+            <Icon style={styles.Icon} fill={active ? "#F7A072" : "#fff"} />
+            <Text style={[styles.Label, active ? styles.LabelActive : styles.LabelInactive]}> {label} </Text>
         </TouchableOpacity>
     )
 };
@@ -57,7 +57,7 @@ const BottomBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation
             label: "Profile",
             icon: ProfileIcon,
         },
-        
+
     ]
 
     const handleItemPress = (name: string, event: GestureResponderEvent) => {
@@ -67,7 +67,7 @@ const BottomBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation
     return (
         <View style={styles.Container}>
             {
-                items.map(({ name, label, icon }, index) => <BottomBarItem key={index} name={name} active={index === state.index} label={label}  Icon={icon} onPress={handleItemPress} />)
+                items.map(({ name, label, icon }, index) => <BottomBarItem key={index} name={name} active={index === state.index} label={label} Icon={icon} onPress={handleItemPress} />)
             }
         </View>
     )
