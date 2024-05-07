@@ -14,7 +14,7 @@ const Navigation: React.FC = () => {
     }, [])
 
     return  (
-        isAuthenticated !== null ? <AppNavigation />: <AuthNavigation />
+        isAuthenticated === null ? <AppNavigation />: <AuthNavigation />
     );
 }
 
