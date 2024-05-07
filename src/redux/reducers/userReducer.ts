@@ -21,7 +21,7 @@ const initialState: UserState = {
   tdee: null,
   calories: null,
   error: null,
-  profilePicture: null,
+  profilePicture: undefined,
 };
 
 const userReducer = (state = initialState, action: UserActionTypes): UserState => {
