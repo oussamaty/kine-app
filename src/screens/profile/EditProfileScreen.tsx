@@ -22,6 +22,8 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
     const initialGender = useAppSelector(state => state.user.gender) ?? undefined;
     const initialHeight = useAppSelector(state => state.user.height) ?? undefined;
     const initialWeight = useAppSelector(state => state.user.weight) ?? undefined;
+    const Weightunit = useAppSelector(state => state.units.weightUnit);
+    const Heightunit = useAppSelector(state => state.units.heightUnit);
 
     const initalBirthTimestamp = useAppSelector(state => state.user.birthDate ?? undefined)
     const initialBirthDate = initalBirthTimestamp ? new Date(initalBirthTimestamp) : new Date();
@@ -88,7 +90,6 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
     }
 
 
-
     return (
         <ScrollableScreen style={styles.Layout} >
             <ScreenHeader title={"Edit Profile"} onPress={() => navigation.navigate("ProfileOptions")} />
@@ -127,7 +128,7 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
                     key="height"
                     label="Height"
                     type="numeric"
-                    unit="cm"
+                    unit={Heightunit}
                     maxValue={250}
                     minValue={100}
                     initialValue={initialHeight}
@@ -138,7 +139,7 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
                     key="weight"
                     label="Weight"
                     type="numeric"
-                    unit="kg"
+                    unit={Weightunit}
                     maxValue={500}
                     minValue={20}
                     initialValue={initialWeight}
