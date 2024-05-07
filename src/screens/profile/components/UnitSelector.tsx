@@ -26,6 +26,7 @@ const UnitSelector: React.FC<UnitSelectorProps> = ({ content }) => {
     const dispatch = useAppDispatch();
     const initialHeight = useAppSelector(state => state.user.height) ?? undefined;
     const initialWeight = useAppSelector(state => state.user.weight) ?? undefined;
+    const initialTarget = useAppSelector(state => state.user.target) ?? undefined;
 
     const switchUnit = (content: UnitsStateKey, unit: string): UnitsState[UnitsStateKey] => {
         switch (content) {
@@ -49,6 +50,7 @@ const UnitSelector: React.FC<UnitSelectorProps> = ({ content }) => {
                 break;
             case 'weightUnit':
                 dispatch(updateUserState("weight", convertWeight(initialWeight as number, unit)));
+                dispatch(updateUserState("target", convertWeight(initialTarget as number, unit)))
                 break;
         }
         dispatch(updateUnitsState(content, switchUnit(content, unit)));
