@@ -19,8 +19,18 @@ export interface UserState {
     calories: number | null;
     error: string | null;
     profilePicture: string | undefined;
+    heightUnit: HeightUnit;
+    weightUnit: WeightUnit;
+    liquidUnit: LiquidUnit;
+    energyUnit: EnergyUnit;
+    heightToDisplay: number | null;
+    weightToDisplay: number | null;
+    targetToDisplay: number | null;
+    tdeeToDisplay: number | null;
+    caloriesToDisplay: number | null;
 }
 
+// Enums
 export enum UserWeightGoal {
     lose_weight = 'Lose Weight',
     maintain_weight = 'Maintain Weight',
@@ -30,6 +40,22 @@ export enum UserActivityLevel {
     sedentary = 'Sedentary',
     moderate = 'Moderately Active',
     active = 'Very Active',
+};
+export enum HeightUnit {
+    CM = "cm",
+    FEET = "ft"
+};
+export enum WeightUnit {
+    KG = "kg",
+    POUNDS = "lbs"
+};
+export enum LiquidUnit {
+    L = "L",
+    OZ = "fl oz"
+};
+export enum EnergyUnit {
+    CAL = "cal",
+    KJ = "kJ"
 };
 
 export type UserStateKey = keyof UserState;

@@ -1,59 +1,74 @@
 import * as React from 'react';
 import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
-import { UnitsState, UnitsStateKey } from '@redux/types/unitsTypes';
 import { useAppSelector } from '@hooks/index';
 import { useAppDispatch } from '@hooks/index';
-import { updateUnitsState } from '@redux/actions/unitsActions';
 import { persistor } from '@redux/store';
-import { convertLength, convertWeight } from '@utils/unitConverters';
+import { convertEnergy, convertLength, convertWeight } from '@utils/unitConverters';
 import { updateUserState } from '@redux/actions/userActions';
+import { EnergyUnit, HeightUnit, LiquidUnit, WeightUnit } from '@redux/types/userTypes';
+
+type UnitKeys = 'heightUnit' | 'weightUnit' | 'liquidUnit' | 'energyUnit';
 
 type UnitSelectorProps = {
-    content: UnitsStateKey,
+    unitType: UnitKeys;
 };
 
-const contentTextMap: { [key in UnitsStateKey]: string } = {
+const unitTypeTextMap: { [key in UnitKeys]: string } = {
     heightUnit: 'Height Unit',
     weightUnit: 'Weight Unit',
     energyUnit: 'Energy Unit',
     liquidUnit: 'Liquid Unit',
 };
 
-const UnitSelector: React.FC<UnitSelectorProps> = ({ content }) => {
+const UnitSelector: React.FC<UnitSelectorProps> = ({ unitType }) => {
 
-    const unit = useAppSelector(state => state.units[content]);
-    const displayText = contentTextMap[content];
+    const unit = useAppSelector(state => state.user[unitType]);
+    const displayText = unitTypeTextMap[unitType];
+
     const dispatch = useAppDispatch();
-    const initialHeight = useAppSelector(state => state.user.height) ?? undefined;
-    const initialWeight = useAppSelector(state => state.user.weight) ?? undefined;
-    const initialTarget = useAppSelector(state => state.user.target) ?? undefined;
+    const initialHeight = useAppSelector(state => state.user.heightToDisplay) ?? undefined;
+    const initialWeight = useAppSelector(state => state.user.weightToDisplay) ?? undefined;
+    const initialTDEE = useAppSelector(state => state.user.tdeeToDisplay) ?? undefined;
+    const initialCalories = useAppSelector(state => state.user.caloriesToDisplay) ?? undefined;
+    const initialTarget = useAppSelector(state => state.user.targetToDisplay) ?? undefined;
 
-    const switchUnit = (content: UnitsStateKey, unit: string): UnitsState[UnitsStateKey] => {
-        switch (content) {
-            case 'heightUnit':
-                return unit === 'cm' ? 'ft,in' : 'cm';
-            case 'weightUnit':
-                return unit === 'kg' ? 'lb' : 'kg';
-            case 'energyUnit':
-                return unit === 'cal' ? 'kJ' : 'cal';
-            case 'liquidUnit':
-                return unit === 'L' ? 'fl oz' : 'L';
-            default:
-                throw new Error(`Unknown content category: ${content}`);
-        }
-    };
+    function switchHeightUnit(unit: HeightUnit): HeightUnit {
+        return unit === HeightUnit.CM ? HeightUnit.FEET : HeightUnit.CM;
+    }
+
+    function switchWeightUnit(unit: WeightUnit): WeightUnit {
+        return unit === WeightUnit.KG ? WeightUnit.POUNDS : WeightUnit.KG;
+    }
+
+    function switchEnergyUnit(unit: EnergyUnit): EnergyUnit {
+        return unit === EnergyUnit.CAL ? EnergyUnit.KJ : EnergyUnit.CAL;
+    }
+
+    function switchLiquidUnit(unit: LiquidUnit): LiquidUnit {
+        return unit === LiquidUnit.L ? LiquidUnit.OZ : LiquidUnit.L;
+    }
 
     const changeUnit = () => {
-        switch (content) {
+        switch (unitType) {
             case 'heightUnit':
                 dispatch(updateUserState("height", convertLength(initialHeight as number, unit)));
+                dispatch(updateUserState(unitType, switchHeightUnit(unit as HeightUnit)));
                 break;
             case 'weightUnit':
                 dispatch(updateUserState("weight", convertWeight(initialWeight as number, unit)));
-                dispatch(updateUserState("target", convertWeight(initialTarget as number, unit)))
+                dispatch(updateUserState("target", convertWeight(initialTarget as number, unit)));
+                dispatch(updateUserState(unitType, switchWeightUnit(unit as WeightUnit)));
                 break;
+            case 'energyUnit':
+                dispatch(updateUserState("tdee", convertEnergy(initialTDEE as number, unit)));
+                dispatch(updateUserState("tdee", convertEnergy(initialCalories as number, unit)));
+                dispatch(updateUserState(unitType, switchEnergyUnit(unit as EnergyUnit)));
+                break;
+            case 'liquidUnit':
+                dispatch(updateUserState(unitType, switchLiquidUnit(unit as LiquidUnit)));
+                break;
+
         }
-        dispatch(updateUnitsState(content, switchUnit(content, unit)));
         setTimeout(() => { persistor.persist() }, 100);
     }
 

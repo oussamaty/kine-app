@@ -17,10 +17,10 @@ const SettingsScreen = ({ navigation }: SettingsScreenProp) => {
                 <View style={styles.TextContainer}>
                     <Text style={styles.HeaderText}> Measurements </Text>
                 </View>
-                <UnitSelector content='weightUnit'></UnitSelector>
-                <UnitSelector content='heightUnit'></UnitSelector>
-                <UnitSelector content='liquidUnit'></UnitSelector>
-                <UnitSelector content='energyUnit'></UnitSelector>
+                <UnitSelector unitType='weightUnit'></UnitSelector>
+                <UnitSelector unitType='heightUnit'></UnitSelector>
+                <UnitSelector unitType='liquidUnit'></UnitSelector>
+                <UnitSelector unitType='energyUnit'></UnitSelector>
             </View>
             <View style={styles.Layout}>
                 <View style={styles.TextContainer}>

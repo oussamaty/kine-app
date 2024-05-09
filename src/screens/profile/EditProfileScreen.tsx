@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { EditProfileScreenProp } from '@navigation/types';
 import ScreenHeader from '@components/ScreenHeader';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Gender } from '@constants/enums'
 import LabelInput from '@components/LabelInput';
 import SelectInput from '@components/SelectInput';
@@ -14,6 +14,7 @@ import { persistor } from '@redux/store';
 import { calculateTDEE, updateUserState } from '@redux/actions/userActions';
 import Toast from 'react-native-toast-message';
 import ImagePicker from '@screens/profile/components/ImagePicker';
+import { convertLength, convertWeight } from '@utils/unitConverters';
 
 const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
 
@@ -22,8 +23,10 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
     const initialGender = useAppSelector(state => state.user.gender) ?? undefined;
     const initialHeight = useAppSelector(state => state.user.height) ?? undefined;
     const initialWeight = useAppSelector(state => state.user.weight) ?? undefined;
-    const Weightunit = useAppSelector(state => state.units.weightUnit);
-    const Heightunit = useAppSelector(state => state.units.heightUnit);
+    const initialHeightToDisplay = useAppSelector(state => state.user.heightToDisplay) ?? undefined;
+    const initialWeightToDisplay = useAppSelector(state => state.user.weightToDisplay) ?? undefined;
+    const weightUnit = useAppSelector(state => state.user.weightUnit);
+    const heightUnit = useAppSelector(state => state.user.heightUnit);
 
     const initalBirthTimestamp = useAppSelector(state => state.user.birthDate ?? undefined)
     const initialBirthDate = initalBirthTimestamp ? new Date(initalBirthTimestamp) : new Date();
@@ -63,12 +66,22 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
             dispatch(updateUserState("gender", genderRef.current ?? Gender.NON_SPECIFIED));
             wasUpdated = true;
         };
-        if (initialHeight !== heightRef.current) {
-            dispatch(updateUserState("height", heightRef.current as number));
+        if (initialHeightToDisplay !== heightRef.current) {
+            dispatch(updateUserState("heightToDisplay", heightRef.current as number));
+            if (heightUnit === "cm") {
+                dispatch(updateUserState("height", heightRef.current as number));
+            } else {
+                dispatch(updateUserState("height", convertLength(heightRef.current as number, heightUnit) as number));
+            }
             wasUpdated = true;
         };
-        if (initialWeight !== weightRef.current) {
-            dispatch(updateUserState("weight", weightRef.current as number));
+        if (initialWeightToDisplay !== weightRef.current) {
+            dispatch(updateUserState("weightToDisplay", weightRef.current as number));
+            if (weightUnit === "kg") {
+                dispatch(updateUserState("weight", weightRef.current as number));
+            } else {
+                dispatch(updateUserState("weight", convertWeight(weightRef.current as number, weightUnit) as number));
+            }
             wasUpdated = true;
         };
         if (initalBirthTimestamp !== birthDateRef.current) {
@@ -88,6 +101,18 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
             text1: 'Profile Updated Succesfully',
         });
     }
+
+    const [heightError, setHeightError] = useState<boolean>(false);
+
+    const handleErrorHeightChange = (error: boolean) => {
+        setHeightError(error);
+    };
+
+    const [weightError, setWeightError] = useState<boolean>(false);
+
+    const handleErrorWeightChange = (error: boolean) => {
+        setWeightError(error);
+    };
 
 
     return (
@@ -128,24 +153,26 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
                     key="height"
                     label="Height"
                     type="numeric"
-                    unit={Heightunit}
-                    maxValue={250}
-                    minValue={100}
+                    unit={heightUnit}
+                    maxValue={heightUnit === "cm" ? 250 : 8}
+                    minValue={heightUnit === "cm" ? 100 : 3}
                     initialValue={initialHeight}
                     isRequired={true}
+                    onErrorChange={handleErrorHeightChange}
                     style={styles.Input} />
                 <LabelInput
                     valueRef={weightRef}
                     key="weight"
                     label="Weight"
                     type="numeric"
-                    unit={Weightunit}
-                    maxValue={500}
-                    minValue={20}
+                    unit={weightUnit}
+                    maxValue={weightUnit === "kg" ? 200 : 440}
+                    minValue={weightUnit === "kg" ? 30 : 66}
                     initialValue={initialWeight}
                     isRequired={true}
+                    onErrorChange={handleErrorWeightChange}
                     style={styles.Input} />
-                <Button title='Save' onPress={() => handlePress()} style={styles.Button} textStyle={styles.ButtonText} />
+                <Button title='Save' onPress={() => handlePress()} style={styles.Button} textStyle={styles.ButtonText} disabled={heightError || weightError} />
             </View>
         </ScrollableScreen>
     )
@@ -171,7 +198,6 @@ const styles = StyleSheet.create({
     },
 
     FieldLayout: {
-
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

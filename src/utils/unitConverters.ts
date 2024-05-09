@@ -1,4 +1,4 @@
-import { UnitsState } from '@redux/types/unitsTypes';
+import { HeightUnit, WeightUnit, EnergyUnit, LiquidUnit } from '@redux/types/userTypes';
 
 // Conversion factors
 const CM_TO_FT = 0.0328084;
@@ -16,28 +16,28 @@ const formatToTwoDecimalPlaces = (value: number): number => {
 };
 
 // Conversion functions
-export const convertLength = (value: number, fromUnit: UnitsState['heightUnit']): number => {
+export const convertLength = (value: number, fromUnit: HeightUnit): number => {
     if (fromUnit === 'cm') {
         return formatToTwoDecimalPlaces(value * CM_TO_FT);
     }
     return formatToTwoDecimalPlaces(value * FT_TO_CM);
 };
 
-export const convertWeight = (value: number, fromUnit: UnitsState['weightUnit']): number => {
+export const convertWeight = (value: number, fromUnit: WeightUnit): number => {
     if (fromUnit === 'kg') {
         return formatToTwoDecimalPlaces(value * KG_TO_LB);
     }
     return formatToTwoDecimalPlaces(value * LB_TO_KG);
 };
 
-export const convertEnergy = (value: number, fromUnit: UnitsState['energyUnit']): number => {
+export const convertEnergy = (value: number, fromUnit: EnergyUnit): number => {
     if (fromUnit === 'cal') {
         return formatToTwoDecimalPlaces(value * CAL_TO_KJ);
     }
     return formatToTwoDecimalPlaces(value * KJ_TO_CAL);
 };
 
-export const convertLiquid = (value: number, fromUnit: UnitsState['liquidUnit'], toUnit: UnitsState['liquidUnit']): number => {
+export const convertLiquid = (value: number, fromUnit: LiquidUnit, toUnit: LiquidUnit): number => {
     if (fromUnit === 'L') {
         return formatToTwoDecimalPlaces(value * L_TO_FL_OZ);
     }

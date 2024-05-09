@@ -17,10 +17,11 @@ type LabelInputProps = {
   isDisabled?: boolean;
   onChange?: (text: string) => void;
   valueRef?: MutableRefObject<LabelInputValue>;
+  onErrorChange?: (error: boolean) => void;
   style?: ViewStyle;
 }
 
-const LabelInput: React.FC<LabelInputProps> = ({ label, type, unit, initialValue, minValue, maxValue, isRequired, isDisabled, onChange, valueRef, style }) => {
+const LabelInput: React.FC<LabelInputProps> = ({ label, type, unit, initialValue, minValue, maxValue, isRequired, isDisabled, onChange, valueRef, style, onErrorChange }) => {
   const startFloating = initialValue !== undefined && initialValue !== "";
   const defaultValue = initialValue === undefined ? undefined : initialValue.toString();
 
@@ -57,11 +58,18 @@ const LabelInput: React.FC<LabelInputProps> = ({ label, type, unit, initialValue
       const requiredFieldError = "Please fill this field";
       if (error !== requiredFieldError) {
         setError("Please fill this field");
+        if (onErrorChange) {
+          onErrorChange(true)
+        }
       }
     } else if (type === "numeric" && !isNumeric(text) && text !== "") {
       const validNumberError = "Please provide a valid number";
       if (error != validNumberError) {
         setError(validNumberError);
+        if (onErrorChange) {
+          onErrorChange(true)
+        }
+
       }
     } else if (type === "numeric" && isNumeric(text)) {
       const value = parseInt(text);
@@ -69,12 +77,21 @@ const LabelInput: React.FC<LabelInputProps> = ({ label, type, unit, initialValue
         const rangeError = "Please provide a reasonable number";
         if (error != rangeError) {
           setError(rangeError)
+          if (onErrorChange) {
+            onErrorChange(true)
+          }
         }
       } else if (error) {
         setError(undefined);
+        if (onErrorChange) {
+          onErrorChange(false)
+        }
       }
     } else if (error) {
       setError(undefined);
+      if (onErrorChange) {
+        onErrorChange(false)
+      }
     }
 
     if (valueRef) {
