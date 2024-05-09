@@ -156,7 +156,7 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
                     unit={heightUnit}
                     maxValue={heightUnit === "cm" ? 250 : 8}
                     minValue={heightUnit === "cm" ? 100 : 3}
-                    initialValue={initialHeight}
+                    initialValue={initialHeightToDisplay}
                     isRequired={true}
                     onErrorChange={handleErrorHeightChange}
                     style={styles.Input} />
@@ -168,11 +168,11 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
                     unit={weightUnit}
                     maxValue={weightUnit === "kg" ? 200 : 440}
                     minValue={weightUnit === "kg" ? 30 : 66}
-                    initialValue={initialWeight}
+                    initialValue={initialWeightToDisplay}
                     isRequired={true}
                     onErrorChange={handleErrorWeightChange}
                     style={styles.Input} />
-                <Button title='Save' onPress={() => handlePress()} style={styles.Button} textStyle={styles.ButtonText} disabled={heightError || weightError} />
+                <Button title='Save' onPress={() => handlePress()} style={styles.Button} textStyle={styles.ButtonText} disabled={heightError || weightError} color={heightError || weightError ? "9E9E9E" : "15F5BA"} />
             </View>
         </ScrollableScreen>
     )
@@ -217,7 +217,6 @@ const styles = StyleSheet.create({
     Button: {
         width: '100%',
         height: 50,
-        backgroundColor: '#15F5BA',
         marginTop: 10,
     },
 

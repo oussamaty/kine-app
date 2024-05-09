@@ -3,23 +3,17 @@ import { TouchableOpacity, Text, StyleSheet, ViewStyle, GestureResponderEvent, T
 import { Roboto } from '@theme/font';
 
 interface ButtonProps {
-    title: string;
+    title: string,
     style?: ViewStyle;
-    textStyle?: TextStyle;
+    textStyle?: TextStyle,
     onPress?: (event: GestureResponderEvent) => void;
     disabled?: boolean;
+    color?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ onPress, title, style, textStyle, disabled }) => {
-    // Choose background color based on disabled state
-    const buttonBackgroundColor = disabled ? styles.DisabledButton.backgroundColor : styles.Button.backgroundColor;
-
+const Button: React.FC<ButtonProps> = ({ onPress, title, style, textStyle, disabled, color }) => {
     return (
-        <TouchableOpacity
-            disabled={disabled}
-            onPress={onPress}
-            style={[styles.Button, { backgroundColor: buttonBackgroundColor }, style]} // Override background color conditionally
-        >
+        <TouchableOpacity onPress={onPress} style={[styles.Button, style, { backgroundColor: color }]} disabled={disabled}>
             <Text style={[styles.ButtonText, textStyle]}>{title}</Text>
         </TouchableOpacity>
     );
@@ -36,11 +30,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         paddingVertical: 6,
         borderRadius: 100,
-        backgroundColor: "#211951", // Default color for enabled button
-    },
-
-    DisabledButton: {
-        backgroundColor: "#9E9E9E", // Color for disabled button
+        backgroundColor: "#211951",
     },
 
     ButtonText: {
