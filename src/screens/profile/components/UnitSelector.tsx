@@ -51,17 +51,17 @@ const UnitSelector: React.FC<UnitSelectorProps> = ({ unitType }) => {
     const changeUnit = () => {
         switch (unitType) {
             case 'heightUnit':
-                dispatch(updateUserState("height", convertLength(initialHeight as number, unit)));
+                dispatch(updateUserState("heightToDisplay", convertLength(initialHeight as number, unit as HeightUnit)));
                 dispatch(updateUserState(unitType, switchHeightUnit(unit as HeightUnit)));
                 break;
             case 'weightUnit':
-                dispatch(updateUserState("weight", convertWeight(initialWeight as number, unit)));
-                dispatch(updateUserState("target", convertWeight(initialTarget as number, unit)));
+                dispatch(updateUserState("weightToDisplay", convertWeight(initialWeight as number, unit as WeightUnit)));
+                dispatch(updateUserState("targetToDisplay", convertWeight(initialTarget as number, unit as WeightUnit)));
                 dispatch(updateUserState(unitType, switchWeightUnit(unit as WeightUnit)));
                 break;
             case 'energyUnit':
-                dispatch(updateUserState("tdee", convertEnergy(initialTDEE as number, unit)));
-                dispatch(updateUserState("tdee", convertEnergy(initialCalories as number, unit)));
+                dispatch(updateUserState("tdeeToDisplay", convertEnergy(initialTDEE as number, unit as EnergyUnit)));
+                dispatch(updateUserState("caloriesToDisplay", convertEnergy(initialCalories as number, unit as EnergyUnit)));
                 dispatch(updateUserState(unitType, switchEnergyUnit(unit as EnergyUnit)));
                 break;
             case 'liquidUnit':
