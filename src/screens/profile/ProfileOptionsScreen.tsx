@@ -11,12 +11,20 @@ import SubscribeIcon from '@assets/icons/subscribe.svg';
 import PadlockIcon from '@assets/icons/padlock.svg';
 import SettingsIcon from '@assets/icons/settings.svg';
 import FixedScreen from '@components/FixedScreen';
-import { useAppSelector } from '@hooks/index';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
 import ProfileImage from '@screens/profile/components/ProfileImage';
+import { logoutUser } from '@redux/actions/authActions';
+import { persistor } from '@redux/store';
 
 const ProfileOptionsScreen = ({ navigation }: ProfileOptionsScreenProp) => {
 
     const Name = useAppSelector(state => state.user.firstName) + " " + useAppSelector(state => state.user.lastName);
+    const dispatch = useAppDispatch();
+
+    const handleLogout = () => {
+        dispatch(logoutUser());
+        persistor.purge();
+    }
 
     return (
         <FixedScreen style={styles.Layout}>
@@ -37,7 +45,7 @@ const ProfileOptionsScreen = ({ navigation }: ProfileOptionsScreenProp) => {
                 <OptionItem
                     title={"Account"}
                     IconSrc={PadlockIcon}
-                    onPress={() => { navigation.navigate('AccountSettings'); }} />
+                    onPress={() => { handleLogout() }} />
                 <OptionItem title={"Log Out"} IconSrc={LogoutIcon} />
             </View>
         </FixedScreen>
