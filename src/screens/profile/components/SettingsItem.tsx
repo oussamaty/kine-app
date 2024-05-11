@@ -5,7 +5,6 @@ import { Text, StyleSheet, Switch, View } from 'react-native';
 type SettingsItemProps = {
     content: string,
     unit?: string,
-
 };
 
 const SettingsItem: React.FC<SettingsItemProps> = ({ content, unit }) => {

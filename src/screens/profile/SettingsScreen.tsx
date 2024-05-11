@@ -5,6 +5,7 @@ import ScreenHeader from '@components/ScreenHeader';
 import { Roboto } from '@theme/font';
 import SettingsItem from '@screens/profile/components/SettingsItem';
 import ScrollableScreen from '@components/ScrollableScreen';
+import UnitSelector from '@screens/profile/components/UnitSelector';
 
 
 const SettingsScreen = ({ navigation }: SettingsScreenProp) => {
@@ -16,10 +17,10 @@ const SettingsScreen = ({ navigation }: SettingsScreenProp) => {
                 <View style={styles.TextContainer}>
                     <Text style={styles.HeaderText}> Measurements </Text>
                 </View>
-                <SettingsItem content='Weight Units' unit='Kg'></SettingsItem>
-                <SettingsItem content='Height Units' unit='cm'></SettingsItem>
-                <SettingsItem content='Liquid Units' unit='Liters'></SettingsItem>
-                <SettingsItem content='Energey Units' unit='Kcal'></SettingsItem>
+                <UnitSelector unitType='weightUnit'></UnitSelector>
+                <UnitSelector unitType='heightUnit'></UnitSelector>
+                <UnitSelector unitType='liquidUnit'></UnitSelector>
+                <UnitSelector unitType='energyUnit'></UnitSelector>
             </View>
             <View style={styles.Layout}>
                 <View style={styles.TextContainer}>
@@ -40,6 +41,7 @@ const SettingsScreen = ({ navigation }: SettingsScreenProp) => {
                 <View style={styles.TextContainer}>
                     <Text style={styles.HeaderText}> Notifications </Text>
                 </View>
+                <SettingsItem content='Allow Notifications'></SettingsItem>
             </View>
         </ScrollableScreen>
     )

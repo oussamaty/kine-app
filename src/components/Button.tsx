@@ -7,13 +7,14 @@ interface ButtonProps {
     style?: ViewStyle;
     textStyle?: TextStyle,
     onPress?: (event: GestureResponderEvent) => void;
+    disabled?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ onPress, title, style, textStyle }) => {
+const Button: React.FC<ButtonProps> = ({ onPress, title, style, textStyle, disabled = false }) => {
     return (
-      <TouchableOpacity onPress={onPress} style={[styles.Button, style]}>
-        <Text style={[styles.ButtonText, textStyle]}>{title}</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={onPress} style={[styles.Button, style]} disabled={disabled}>
+            <Text style={[styles.ButtonText, textStyle]}>{title}</Text>
+        </TouchableOpacity>
     );
 };
 
