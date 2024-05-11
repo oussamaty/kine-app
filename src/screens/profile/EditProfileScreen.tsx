@@ -15,6 +15,7 @@ import { calculateTDEE, updateUserState } from '@redux/actions/userActions';
 import Toast from 'react-native-toast-message';
 import ImagePicker from '@screens/profile/components/ImagePicker';
 import { convertLength, convertWeight } from '@utils/unitConverters';
+import { HeightUnit, WeightUnit } from '@redux/types/userTypes';
 
 const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
 
@@ -78,7 +79,7 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
         };
         if (initialHeightToDisplay !== heightRef.current) {
             dispatch(updateUserState("heightToDisplay", heightRef.current as number));
-            if (heightUnit === "cm") {
+            if (heightUnit === HeightUnit.CM) {
                 dispatch(updateUserState("height", heightRef.current as number));
             } else {
                 dispatch(updateUserState("height", convertLength(heightRef.current as number, heightUnit) as number));
@@ -87,7 +88,7 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
         };
         if (initialWeightToDisplay !== weightRef.current) {
             dispatch(updateUserState("weightToDisplay", weightRef.current as number));
-            if (weightUnit === "kg") {
+            if (weightUnit === WeightUnit.KG) {
                 dispatch(updateUserState("weight", weightRef.current as number));
             } else {
                 dispatch(updateUserState("weight", convertWeight(weightRef.current as number, weightUnit) as number));
@@ -164,8 +165,8 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
                     label="Height"
                     type="numeric"
                     unit={heightUnit}
-                    maxValue={heightUnit === "cm" ? 250 : 8}
-                    minValue={heightUnit === "cm" ? 100 : 3}
+                    maxValue={heightUnit === HeightUnit.CM ? 250 : 8}
+                    minValue={heightUnit === HeightUnit.CM ? 100 : 3}
                     initialValue={initialHeightToDisplay}
                     isRequired={true}
                     onErrorChange={handleErrorHeightChange}
@@ -176,8 +177,8 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
                     label="Weight"
                     type="numeric"
                     unit={weightUnit}
-                    maxValue={weightUnit === "kg" ? 200 : 440}
-                    minValue={weightUnit === "kg" ? 30 : 66}
+                    maxValue={weightUnit === WeightUnit.KG ? 200 : 440}
+                    minValue={weightUnit === WeightUnit.KG ? 30 : 66}
                     initialValue={initialWeightToDisplay}
                     isRequired={true}
                     onErrorChange={handleErrorWeightChange}

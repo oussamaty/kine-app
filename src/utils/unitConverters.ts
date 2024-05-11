@@ -17,28 +17,28 @@ const formatToTwoDecimalPlaces = (value: number): number => {
 
 // Conversion functions
 export const convertLength = (value: number, fromUnit: HeightUnit): number => {
-    if (fromUnit === 'cm') {
+    if (fromUnit === HeightUnit.CM) {
         return formatToTwoDecimalPlaces(value * CM_TO_FT);
     }
     return formatToTwoDecimalPlaces(value * FT_TO_CM);
 };
 
 export const convertWeight = (value: number, fromUnit: WeightUnit): number => {
-    if (fromUnit === 'kg') {
+    if (fromUnit === WeightUnit.KG) {
         return formatToTwoDecimalPlaces(value * KG_TO_LB);
     }
     return formatToTwoDecimalPlaces(value * LB_TO_KG);
 };
 
 export const convertEnergy = (value: number, fromUnit: EnergyUnit): number => {
-    if (fromUnit === 'cal') {
+    if (fromUnit === EnergyUnit.CAL) {
         return formatToTwoDecimalPlaces(value * CAL_TO_KJ);
     }
     return formatToTwoDecimalPlaces(value * KJ_TO_CAL);
 };
 
 export const convertLiquid = (value: number, fromUnit: LiquidUnit, toUnit: LiquidUnit): number => {
-    if (fromUnit === 'L') {
+    if (fromUnit === LiquidUnit.L) {
         return formatToTwoDecimalPlaces(value * L_TO_FL_OZ);
     }
     return formatToTwoDecimalPlaces(value * FL_OZ_TO_L);
