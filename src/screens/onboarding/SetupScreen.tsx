@@ -19,6 +19,8 @@ import SomethingWentWrong from '@screens/onboarding/components/SomethingWentWron
 import CalculationResult from '@screens/onboarding/components/CalculationResult';
 import { calculateTDEE } from '@redux/actions/userActions';
 import Loading from '@components/Loading';
+import { requestStateFlush, startLoading } from '@redux/actions/requestActions';
+import Toast from 'react-native-toast-message';
 
 const SetupScreen: React.FC<SetupScreenProp> = ({ navigation }) => {
 
@@ -29,7 +31,9 @@ const SetupScreen: React.FC<SetupScreenProp> = ({ navigation }) => {
   const [step, setStep] = useState<number>(minStep);
   const [check, setCheck] = useState<boolean>(false);
   const [valid, setValid] = useState<boolean>(false);
-  const isLoading = useAppSelector(state => state.loading);
+  const isLoading = useAppSelector(state => state.request.loading);
+  const requestSuccess = useAppSelector(state => state.request.success);
+  const requestError = useAppSelector(state => state.request.error);
 
   const dispatch = useAppDispatch();
 
@@ -39,13 +43,32 @@ const SetupScreen: React.FC<SetupScreenProp> = ({ navigation }) => {
     }
   }, [valid]);
 
+  useEffect(() => {
+    if (requestSuccess && step == maxStep - 1) {
+      setStep(step => Math.min(step + 1, maxStep));
+    }
+    dispatch(requestStateFlush());
+  }, [requestSuccess]);
+
+  useEffect(() => {
+    if (requestError) {
+      Toast.show({
+        type: 'error',
+        text1: requestError?? 'Something went wrong'
+      })
+    }
+    dispatch(requestStateFlush());
+  }, [requestError]);
+
   const nextStep = () => {
     setValid(false);
     if (step === maxStep - 1) {
       persistor.persist();
+      dispatch(startLoading());
       dispatch(calculateTDEE());
+    } else {
+      setStep(step => Math.min(step + 1, maxStep));
     }
-    setStep(step => Math.min(step + 1, maxStep));
   }
 
   const handleNextPress = () => {

@@ -1,16 +1,24 @@
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { WelcomeScreenProp } from '@navigation/types';
-import KineLogo from '@assets/svg/kine_logo.svg';
+import KineLogo from '@assets/svg/kine_logo_old.svg';
 import FixedScreen from '@components/FixedScreen';
 import Button from '@components/Button';
 import { Roboto } from '@theme/font';
+import { loginUser } from '@redux/actions/authActions';
+import { useAppDispatch } from '@hooks/index';
 
 const WelcomeScreen: React.FC<WelcomeScreenProp> = ({ navigation }) => {
+
+    const dispatch = useAppDispatch();
 
     const getStarted = () => {
         navigation.navigate('Setup');
     };
+
+    const handleLogin = () => {
+        dispatch(loginUser());
+    }
 
     return (
         <FixedScreen style={styles.Screen}>
@@ -27,6 +35,9 @@ const WelcomeScreen: React.FC<WelcomeScreenProp> = ({ navigation }) => {
                     </Text>
                 </View>
                 <Button title="Get Started" onPress={getStarted} />
+                <TouchableOpacity style={styles.LoginMessageWrapper} onPress={() => handleLogin()}>
+                    <Text style={styles.LoginMessage}>Already have an account ?</Text>
+                </TouchableOpacity>
             </View>
         </FixedScreen>
     )
@@ -82,6 +93,21 @@ const styles = StyleSheet.create({
         color: "#000",
         fontSize: 16,
         lineHeight: 28,
+        fontFamily: Roboto.medium,
+        fontWeight: "500",
+        textAlign: "center",
+    },
+
+    LoginMessageWrapper: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+    },
+
+    LoginMessage: {
+        color: "blue",
+        fontSize: 18,
+        lineHeight: 18,
         fontFamily: Roboto.medium,
         fontWeight: "500",
         textAlign: "center",

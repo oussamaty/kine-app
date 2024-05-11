@@ -9,15 +9,13 @@ const Loading: React.FC<LoadingProps> = ({ style }) => {
 
     return (
         <View style={[styles.Container, style]}>
-            <ActivityIndicator style={styles.Loading} size="large" color="#0000ff" />
+            <ActivityIndicator style={styles.Loading} size='large' color="#0000ff" />
         </View>
     )
 };
 
 const styles = StyleSheet.create({
     Container: {
-        width: '100%',
-        height: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -25,8 +23,7 @@ const styles = StyleSheet.create({
     },
 
     Loading: {
-        width: 50,
-        height: 50,
+        
     }
 });
 

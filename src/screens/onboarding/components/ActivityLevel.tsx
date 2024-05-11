@@ -48,9 +48,9 @@ const ActivityLevel: React.FC<ActivityLevelProps> = ({ check, setCheck, setValid
   }
 
   const options = {
-    sedentary: Sedentary,
-    moderate: ModeratelyActive,
-    active: VeryActive
+    SEDENTARY: Sedentary,
+    MODERATELY_ACTIVE: ModeratelyActive,
+    VERY_ACTIVE: VeryActive
   };
 
   return (
