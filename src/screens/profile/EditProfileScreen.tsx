@@ -35,19 +35,9 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
     const firstNameRef = useRef<string | undefined>(initialFirstName);
     const lastNameRef = useRef<string | undefined>(initialLastName);
     const genderRef = useRef<Gender | undefined>(initialGender);
-    const heightRef = useRef<number | undefined>(initialHeight);
-    const weightRef = useRef<number | undefined>(initialWeight);
+    const heightRef = useRef<number | undefined>(initialHeightToDisplay);
+    const weightRef = useRef<number | undefined>(initialWeightToDisplay);
     const birthDateRef = useRef<Date | undefined>(initialBirthDate);
-
-
-    React.useEffect(() => {
-        heightRef.current = initialHeightToDisplay;
-    }, [initialHeightToDisplay]);
-
-    React.useEffect(() => {
-        weightRef.current = initialWeightToDisplay;
-    }, [initialWeightToDisplay]);
-
 
     const dispatch = useAppDispatch();
 
