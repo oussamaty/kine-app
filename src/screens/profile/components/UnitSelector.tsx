@@ -26,11 +26,27 @@ const UnitSelector: React.FC<UnitSelectorProps> = ({ unitType }) => {
     const displayText = unitTypeTextMap[unitType];
 
     const dispatch = useAppDispatch();
-    const initialHeight = useAppSelector(state => state.user.heightToDisplay) ?? undefined;
-    const initialWeight = useAppSelector(state => state.user.weightToDisplay) ?? undefined;
-    const initialTDEE = useAppSelector(state => state.user.tdeeToDisplay) ?? undefined;
-    const initialCalories = useAppSelector(state => state.user.caloriesToDisplay) ?? undefined;
-    const initialTarget = useAppSelector(state => state.user.targetToDisplay) ?? undefined;
+
+    let initialHeight: number | undefined;
+    let initialWeight: number | undefined;
+    let initialTarget: number | undefined;
+    let initialTDEE: number | undefined;
+    let initialCalories: number | undefined;
+
+    switch (unitType) {
+        case 'heightUnit':
+            initialHeight = useAppSelector(state => state.user.heightToDisplay) ?? undefined;
+            break;
+        case 'weightUnit':
+            initialWeight = useAppSelector(state => state.user.weightToDisplay) ?? undefined;
+            initialTarget = useAppSelector(state => state.user.targetToDisplay) ?? undefined;
+            break;
+        case 'energyUnit':
+            initialTDEE = useAppSelector(state => state.user.tdeeToDisplay) ?? undefined;
+            initialCalories = useAppSelector(state => state.user.caloriesToDisplay) ?? undefined;
+            break;
+    }
+
 
     function switchHeightUnit(unit: HeightUnit): HeightUnit {
         return unit === HeightUnit.CM ? HeightUnit.FEET : HeightUnit.CM;
