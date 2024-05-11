@@ -38,6 +38,16 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
     const weightRef = useRef<number | undefined>(initialWeight);
     const birthDateRef = useRef<Date | undefined>(initialBirthDate);
 
+
+    React.useEffect(() => {
+        heightRef.current = initialHeightToDisplay;
+    }, [initialHeightToDisplay]);
+
+    React.useEffect(() => {
+        weightRef.current = initialWeightToDisplay;
+    }, [initialWeightToDisplay]);
+
+
     const dispatch = useAppDispatch();
 
     const genderOptions = Object.entries(Gender).map((value, index) => ({

@@ -37,9 +37,9 @@ export enum UserWeightGoal {
     gain_weight = 'Gain Weight',
 };
 export enum UserActivityLevel {
-    sedentary = 'Sedentary',
-    moderate = 'Moderately Active',
-    active = 'Very Active',
+    SEDENTARY = 'Sedentary',
+    MODERATELY_ACTIVE = 'Moderately Active',
+    VERY_ACTIVE = 'Very Active',
 };
 export enum HeightUnit {
     CM = "cm",
