@@ -15,32 +15,60 @@ const formatToTwoDecimalPlaces = (value: number): number => {
     return parseFloat(value.toFixed(2));
 };
 
+export const switchHeightUnit = (unit: HeightUnit): HeightUnit => {
+    return unit === HeightUnit.CM ? HeightUnit.FEET : HeightUnit.CM;
+};
+
+export const switchWeightUnit = (unit: WeightUnit): WeightUnit => {
+    return unit === WeightUnit.KG ? WeightUnit.POUNDS : WeightUnit.KG;
+};
+
+export const switchEnergyUnit = (unit: EnergyUnit): EnergyUnit => {
+    return unit === EnergyUnit.CAL ? EnergyUnit.KJ : EnergyUnit.CAL;
+};
+
+export const switchLiquidUnit = (unit: LiquidUnit): LiquidUnit => {
+    return unit === LiquidUnit.L ? LiquidUnit.OZ : LiquidUnit.L;
+};
+
 // Conversion functions
-export const convertLength = (value: number, fromUnit: HeightUnit): number => {
-    if (fromUnit === HeightUnit.CM) {
+export const convertLength = (value: number, fromUnit: HeightUnit, toUnit?: HeightUnit): number => {
+    toUnit = toUnit || switchHeightUnit(fromUnit);
+    if (fromUnit === HeightUnit.CM && toUnit === HeightUnit.FEET) {
         return formatToTwoDecimalPlaces(value * CM_TO_FT);
+    } else if (fromUnit === HeightUnit.FEET && toUnit === HeightUnit.CM) {
+        return formatToTwoDecimalPlaces(value * FT_TO_CM);
     }
-    return formatToTwoDecimalPlaces(value * FT_TO_CM);
+    return value;
 };
 
-export const convertWeight = (value: number, fromUnit: WeightUnit): number => {
-    if (fromUnit === WeightUnit.KG) {
+export const convertWeight = (value: number, fromUnit: WeightUnit, toUnit?: WeightUnit): number => {
+    toUnit = toUnit || switchWeightUnit(fromUnit);
+    if (fromUnit === WeightUnit.KG && toUnit === WeightUnit.POUNDS) {
         return formatToTwoDecimalPlaces(value * KG_TO_LB);
+    } else if (fromUnit === WeightUnit.POUNDS && toUnit === WeightUnit.KG) {
+        return formatToTwoDecimalPlaces(value * LB_TO_KG);
     }
-    return formatToTwoDecimalPlaces(value * LB_TO_KG);
+    return value;
 };
 
-export const convertEnergy = (value: number, fromUnit: EnergyUnit): number => {
-    if (fromUnit === EnergyUnit.CAL) {
+export const convertEnergy = (value: number, fromUnit: EnergyUnit, toUnit?: EnergyUnit): number => {
+    toUnit = toUnit || switchEnergyUnit(fromUnit);
+    if (fromUnit === EnergyUnit.CAL && toUnit === EnergyUnit.KJ) {
         return formatToTwoDecimalPlaces(value * CAL_TO_KJ);
+    } else if (fromUnit === EnergyUnit.KJ && toUnit === EnergyUnit.CAL) {
+        return formatToTwoDecimalPlaces(value * KJ_TO_CAL);
     }
-    return formatToTwoDecimalPlaces(value * KJ_TO_CAL);
+    return value;
 };
 
-export const convertLiquid = (value: number, fromUnit: LiquidUnit, toUnit: LiquidUnit): number => {
-    if (fromUnit === LiquidUnit.L) {
+export const convertLiquid = (value: number, fromUnit: LiquidUnit, toUnit?: LiquidUnit): number => {
+    toUnit = toUnit || switchLiquidUnit(fromUnit);
+    if (fromUnit === LiquidUnit.L && toUnit === LiquidUnit.OZ) {
         return formatToTwoDecimalPlaces(value * L_TO_FL_OZ);
+    } else if (fromUnit === LiquidUnit.OZ && toUnit === LiquidUnit.L) {
+        return formatToTwoDecimalPlaces(value * FL_OZ_TO_L);
     }
-    return formatToTwoDecimalPlaces(value * FL_OZ_TO_L);
+    return value;
 };
 

@@ -3,7 +3,7 @@ import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { useAppSelector } from '@hooks/index';
 import { useAppDispatch } from '@hooks/index';
 import { persistor } from '@redux/store';
-import { convertEnergy, convertLength, convertWeight } from '@utils/unitConverters';
+import { convertEnergy, convertLength, convertWeight, switchEnergyUnit, switchHeightUnit, switchLiquidUnit, switchWeightUnit } from '@utils/unitConverters';
 import { updateUserState } from '@redux/actions/userActions';
 import { EnergyUnit, HeightUnit, LiquidUnit, WeightUnit } from '@redux/types/userTypes';
 
@@ -47,22 +47,6 @@ const UnitSelector: React.FC<UnitSelectorProps> = ({ unitType }) => {
             break;
     }
 
-
-    function switchHeightUnit(unit: HeightUnit): HeightUnit {
-        return unit === HeightUnit.CM ? HeightUnit.FEET : HeightUnit.CM;
-    }
-
-    function switchWeightUnit(unit: WeightUnit): WeightUnit {
-        return unit === WeightUnit.KG ? WeightUnit.POUNDS : WeightUnit.KG;
-    }
-
-    function switchEnergyUnit(unit: EnergyUnit): EnergyUnit {
-        return unit === EnergyUnit.CAL ? EnergyUnit.KJ : EnergyUnit.CAL;
-    }
-
-    function switchLiquidUnit(unit: LiquidUnit): LiquidUnit {
-        return unit === LiquidUnit.L ? LiquidUnit.OZ : LiquidUnit.L;
-    }
 
     const changeUnit = () => {
         switch (unitType) {

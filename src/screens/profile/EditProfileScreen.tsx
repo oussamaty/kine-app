@@ -79,20 +79,12 @@ const EditProfileScreen = ({ navigation }: EditProfileScreenProp) => {
         };
         if (initialHeightToDisplay !== heightRef.current) {
             dispatch(updateUserState("heightToDisplay", heightRef.current as number));
-            if (heightUnit === HeightUnit.CM) {
-                dispatch(updateUserState("height", heightRef.current as number));
-            } else {
-                dispatch(updateUserState("height", convertLength(heightRef.current as number, heightUnit) as number));
-            }
+            dispatch(updateUserState("height", convertLength(heightRef.current as number, heightUnit, HeightUnit.CM) as number));
             wasUpdated = true;
         };
         if (initialWeightToDisplay !== weightRef.current) {
             dispatch(updateUserState("weightToDisplay", weightRef.current as number));
-            if (weightUnit === WeightUnit.KG) {
-                dispatch(updateUserState("weight", weightRef.current as number));
-            } else {
-                dispatch(updateUserState("weight", convertWeight(weightRef.current as number, weightUnit) as number));
-            }
+            dispatch(updateUserState("weight", convertWeight(weightRef.current as number, weightUnit, WeightUnit.KG) as number));
             wasUpdated = true;
         };
         if (initalBirthTimestamp !== birthDateRef.current) {
