@@ -18,7 +18,7 @@ export interface UserState {
     tdee: number | null;
     calories: number | null;
     error: string | null;
-    profilePicture: string | undefined;
+    profilePicture: string | null;
 }
 
 export enum UserWeightGoal {
@@ -27,9 +27,9 @@ export enum UserWeightGoal {
     gain_weight = 'Gain Weight',
 };
 export enum UserActivityLevel {
-    sedentary = 'Sedentary',
-    moderate = 'Moderately Active',
-    active = 'Very Active',
+    SEDENTARY = 'Sedentary',
+    MODERATELY_ACTIVE = 'Moderately Active',
+    VERY_ACTIVE = 'Very Active',
 };
 
 export type UserStateKey = keyof UserState;

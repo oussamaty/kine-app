@@ -1,8 +1,8 @@
 import { AuthActionTypes } from '@redux/types/authTypes';
 import { UserActionTypes } from '@redux/types/userTypes';
-import { LoadingActionTypes } from '@redux/types/loadingTypes';
+import { RequestActionTypes } from '@redux/types/requestTypes';
 
 export type ActionTypes = 
     | AuthActionTypes
     | UserActionTypes
-    | LoadingActionTypes;
+    | RequestActionTypes;

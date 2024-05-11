@@ -101,6 +101,7 @@ export const loadTokenFailure = (error: string): AuthActionTypes => ({
 export const loginUser = (): ThunkAction<void, RootState, unknown, AuthActionTypes> => async dispatch => {
     try {
         const response = await loginUserApi();
+        console.log(response);
         await saveToken(response);
         dispatch(loginSuccess(response));
     } catch (error: any) {
@@ -114,6 +115,7 @@ export const registerUser = (): ThunkAction<void, RootState, unknown, AuthAction
     try {
         const response = await registerUserApi();
         await saveToken(response);
+        console.log(response);
         dispatch(registerSuccess(response));
     } catch (error: any) {
         console.log('Register failed:', error.message);

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
-import Icon from '@components/Icon';
 import KineLogo from '@assets/svg/kine_logo.svg';
 
 type SplashScreenProps = {

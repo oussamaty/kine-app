@@ -4,7 +4,7 @@ import userReducer from '@redux/reducers/userReducer';
 import { persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserState } from '@redux/types/userTypes';
-import { loadingReducer } from '@redux/reducers/loadingReducer';
+import { requestReducer } from '@redux/reducers/requestReducer';
 
 const persistConfig = {
   key: 'user',
@@ -16,7 +16,7 @@ const persistedUserReducer = persistReducer<UserState, any>(persistConfig, userR
 const rootReducer = combineReducers({
   auth: authReducer,
   user: persistedUserReducer,
-  loading: loadingReducer,
+  request: requestReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
