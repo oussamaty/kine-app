@@ -12,7 +12,7 @@ class DailyMeal extends Model {
     };
     
     @relation('days', 'day_id') day!: Day;
-    @field('type') type!: string;
+    @field('type') type!: MealTypeKey;
     @field('total_calories') totalCalories!: number;
     @field('total_protein') totalProtein!: number;
     @field('total_carbs') totalCarbs!: number;
@@ -23,5 +23,27 @@ class DailyMeal extends Model {
     @field('target_fats') targetFats!: number;
     @children('food_items') foodItems!: FoodItem[];
 }
+
+export enum MealType {
+    BREAKFAST = 'Breakfast',
+    LUNCH = 'Lunch',
+    DINNER = 'Dinner',
+    SNACK = 'Snack',
+};
+
+export type MealTypeKey = keyof typeof MealType;
+
+export type DailyMealData = {
+    day: Day,
+    type: MealTypeKey,
+    totalCalories: number,
+    totalProtein: number,
+    totalCarbs: number,
+    totalFats: number,
+    targetCalories: number,
+    targetProtein: number,
+    targetCarbs: number,
+    targetFats: number,
+};
 
 export default DailyMeal;

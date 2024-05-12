@@ -9,7 +9,7 @@ import StepBar from '@screens/onboarding/components/StepBar';
 import Button from '@components/Button';
 import { persistor } from '@redux/store';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { registerUser } from '@redux/actions/authActions';
+import { loginUser } from '@redux/actions/authActions';
 import UserInfo from '@screens/onboarding/components/UserInfo';
 import WeightGoals from '@screens/onboarding/components/WeightGoals';
 import UserStats from '@screens/onboarding/components/UserStats';
@@ -74,7 +74,7 @@ const SetupScreen: React.FC<SetupScreenProp> = ({ navigation }) => {
   const handleNextPress = () => {
     if (isLoading) return;
     if (step >= maxStep) {
-      dispatch(registerUser());
+      dispatch(loginUser());
     } else {
       setCheck(true);
     }

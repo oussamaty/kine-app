@@ -3,6 +3,7 @@ import {
   UserStateKey,
   UserState,
   UPDATE_USER_STATE,
+  PURGE_USER_STATE,
 } from '@redux/types/userTypes';
 import { ThunkAction } from '@reduxjs/toolkit';
 import { RootState } from '@redux/reducers';
@@ -33,5 +34,11 @@ export const updateUserState = (key: UserStateKey, value: UserState[UserStateKey
       key: key,
       value: value
     }
+  }
+}
+
+export const purgeUserState = (): UserActionTypes => {
+  return {
+    type: PURGE_USER_STATE
   }
 }

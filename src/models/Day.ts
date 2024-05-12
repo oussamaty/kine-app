@@ -21,4 +21,16 @@ class Day extends Model {
     @children('daily_meals') meals!: DailyMeal[];
 }
 
+export type DayData = {
+  date: Date,
+  totalCalories: number,
+  totalProtein: number,
+  totalCarbs: number,
+  totalFats: number,
+  targetCalories: number,
+  targetProtein: number,
+  targetCarbs: number,
+  targetFats: number,
+};
+
 export default Day;

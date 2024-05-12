@@ -48,6 +48,7 @@ const schema = appSchema({
         tableSchema({
         name: 'food',
         columns: [
+            { name: 'fid', type: 'number' },
             { name: 'name', type: 'string' },
             { name: 'calories', type: 'number' },
             { name: 'carbs', type: 'number' },

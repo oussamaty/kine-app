@@ -12,6 +12,13 @@ class Serving extends Model {
   @relation('food', 'food_id') food!: Food;
   @field('name') name!: string;
   @field('amount') amount!: number;
-}
+};
+
+export type ServingData = {
+  food: Food,
+  name: string,
+  amount: number,
+};
+
 
 export default Serving;

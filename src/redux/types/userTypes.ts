@@ -40,6 +40,8 @@ export type UserActivityLevelKey = keyof typeof UserActivityLevel;
 
 export const UPDATE_USER_STATE = 'UPDATE_USER_STATE';
 
+export const PURGE_USER_STATE = 'PURGE_USER_STATE';
+
 export interface UpdateUserState {
     type: typeof UPDATE_USER_STATE;
     payload: {
@@ -48,5 +50,10 @@ export interface UpdateUserState {
     }
 }
 
+export interface PurgeUserState {
+    type: typeof PURGE_USER_STATE;
+}
+
 export type UserActionTypes =
-    | UpdateUserState;
+    | UpdateUserState
+    | PurgeUserState;

@@ -11,10 +11,10 @@ const Navigation: React.FC = () => {
 
   useEffect(() => {
     dispatch(loadToken());
-  }, [])
+  }, []);
 
   return (
-    isAuthenticated === null ?  <AppNavigation />: <AuthNavigation />
+    isAuthenticated === true ?  <AppNavigation />: <AuthNavigation />
   );
 }
 

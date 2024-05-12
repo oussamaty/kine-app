@@ -3,7 +3,7 @@ import { UserState } from '@redux/types/userTypes';
 
 
 export const calculatTDEEApi = async (state: UserState): Promise<AxiosResponse> => {
-
+    
     return await axios({
         "method": "post",
         "url": "https://www.kinefit.fr/api/v1/calculator",

@@ -24,9 +24,11 @@ import {
     saveToken,
     removeToken,
     getToken,
-    registerUserApi
 } from '@services/auth';
 import { AuthorizeResult, RefreshResult } from 'react-native-app-auth';
+import { persistor } from '@redux/store';
+import { purgeUserState } from '@redux/actions/userActions';
+import { UserActionTypes } from '../types/userTypes';
 
 // Synchronous action creators
 
@@ -98,7 +100,7 @@ export const loadTokenFailure = (error: string): AuthActionTypes => ({
 // Asynchronous action creators
 
 // Login
-export const loginUser = (): ThunkAction<void, RootState, unknown, AuthActionTypes> => async dispatch => {
+export const loginUser = (): ThunkAction<void, RootState, unknown, AuthActionTypes> => async (dispatch, getState) => {
     try {
         const response = await loginUserApi();
         console.log(response);
@@ -110,29 +112,18 @@ export const loginUser = (): ThunkAction<void, RootState, unknown, AuthActionTyp
     }
 };
 
-// Register
-export const registerUser = (): ThunkAction<void, RootState, unknown, AuthActionTypes> => async dispatch => {
-    try {
-        const response = await registerUserApi();
-        await saveToken(response);
-        console.log(response);
-        dispatch(registerSuccess(response));
-    } catch (error: any) {
-        console.log('Register failed:', error.message);
-        dispatch(registerFailure(error.message));
-    }
-}
-
 // Logout
-export const logoutUser = (): ThunkAction<void, RootState, unknown, AuthActionTypes> => async (dispatch, getState) => {
+export const logoutUser = (): ThunkAction<void, RootState, unknown, AuthActionTypes | UserActionTypes> => async (dispatch, getState) => {
     try {
         const idToken = getState().auth.idToken;
-        if (!idToken) {
-            throw new Error("Id Token is undefined");
-        }
-        await logoutUserApi(idToken);
         await removeToken();
+        dispatch(purgeUserState());
+        await persistor.purge();
+        if (idToken) {
+            await logoutUserApi(idToken);
+        }
         dispatch(logoutSuccess());
+        console.log(getState().auth);
     } catch (error: any) {
         dispatch(logoutFailure(error.message));
         console.log('Logout failed:', error.message);

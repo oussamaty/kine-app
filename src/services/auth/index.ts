@@ -1,14 +1,10 @@
 import * as Keychain from 'react-native-keychain';
 import { authorize, refresh, revoke, logout, EndSessionResult, RefreshResult, AuthorizeResult } from 'react-native-app-auth';
-import { config, registerConfig, postLogoutRedirectUrl } from '@config/api/auth';
+import { config, postLogoutRedirectUrl } from '@config/api/auth';
 import { AuthResultTypes } from '@redux/types/authTypes';
 
 export const loginUserApi = async (): Promise<AuthorizeResult> => {
   return await authorize(config);
-};
-
-export const registerUserApi = async (): Promise<AuthorizeResult> => {
-  return await authorize(registerConfig);
 };
 
 export const refreshTokenApi = async ( refreshToken: string ): Promise<RefreshResult> => {

@@ -23,7 +23,6 @@ const ProfileOptionsScreen = ({ navigation }: ProfileOptionsScreenProp) => {
 
     const handleLogout = () => {
         dispatch(logoutUser());
-        persistor.purge();
     }
 
     return (
@@ -44,9 +43,11 @@ const ProfileOptionsScreen = ({ navigation }: ProfileOptionsScreenProp) => {
                     onPress={() => { navigation.navigate('Settings'); }} />
                 <OptionItem
                     title={"Account"}
-                    IconSrc={PadlockIcon}
+                    IconSrc={PadlockIcon} />
+                <OptionItem
+                    title={"Log Out"}
+                    IconSrc={LogoutIcon}
                     onPress={() => { handleLogout() }} />
-                <OptionItem title={"Log Out"} IconSrc={LogoutIcon} />
             </View>
         </FixedScreen>
     );

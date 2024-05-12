@@ -35,9 +35,6 @@ const WelcomeScreen: React.FC<WelcomeScreenProp> = ({ navigation }) => {
                     </Text>
                 </View>
                 <Button title="Get Started" onPress={getStarted} />
-                <TouchableOpacity style={styles.LoginMessageWrapper} onPress={() => handleLogin()}>
-                    <Text style={styles.LoginMessage}>Already have an account ?</Text>
-                </TouchableOpacity>
             </View>
         </FixedScreen>
     )

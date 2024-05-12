@@ -16,4 +16,6 @@ export const weekDay = (day: number): string => {
     } else {
         throw new Error("Invalid day number: " + day);
     }
-}
+};
+
+export const formatDay = (day: Date): string => day.toISOString().split('T')[0];

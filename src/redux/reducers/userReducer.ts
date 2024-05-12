@@ -2,6 +2,7 @@ import {
   UserState,
   UserActionTypes,
   UPDATE_USER_STATE,
+  PURGE_USER_STATE,
 } from '@redux/types/userTypes';
 
 const initialState: UserState = {
@@ -31,6 +32,9 @@ const userReducer = (state = initialState, action: UserActionTypes): UserState =
         ...state,
         [action.payload.key]: action.payload.value
       };
+    
+    case PURGE_USER_STATE:
+      return initialState;
 
     default:
       return state;
