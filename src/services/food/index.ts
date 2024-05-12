@@ -1,11 +1,9 @@
-import database from '@db/index';
 import Day, { DayData } from '@models/Day';
 import DailyMeal, { DailyMealData, MealType, MealTypeKey } from '@models/DailyMeal';
 import Food, { FoodData } from '@models/Food';
 import Serving, { ServingData } from '@models/Serving';
 import FoodItem, { FoodItemData } from '@models/FoodItem';
-import { Q } from '@nozbe/watermelondb';
-import { addDailyMeal, addDay, addFood, addFoodItem, addServing, fetchDay, updateDay } from '@services/food/crud';
+import { addDailyMeal, addDay, addFood, addFoodItem, addServing, deleteFoodItem, fetchDay, fetchDayRange, updateDailyMeal, updateDay } from '@services/food/crud';
 import { Target } from '@services/food/types';
 
 export const getOrCreateDay = async (day: Date, target: Target, mealTargets: Record<MealTypeKey, Target>): Promise<Day> => {
@@ -77,18 +75,56 @@ export const createServing = async (food: Food, servingData: Omit<ServingData, '
 };
 
 export const createFoodItem = async (meal: DailyMeal, food: Food, serving: Serving, quantity: number): Promise<FoodItem> => {
+    const factor = serving.amount * quantity / 100;
+
     const foodItemData: FoodItemData = {
         food: food,
         meal: meal,
         serving: serving,
         quantity: quantity,
-        calories: ,
-        carbs: ,
-        fats: ,
-        protein: ,
+        calories: factor * food.calories,
+        carbs: factor * food.carbs,
+        fats: factor * food.fats,
+        protein: factor * food.protein,
     };
 
     return await addFoodItem(foodItemData);
+};
+
+export const updateMealAggregates = async (meal: DailyMeal, foodItem: FoodItem, add: boolean): Promise<DailyMeal> => {
+    const operation = add ? 1: -1;
+    const updates: Partial<DailyMeal> = {
+        totalCalories: meal.totalCalories + operation * foodItem.calories,
+        totalCarbs: meal.totalCarbs + operation * foodItem.carbs,
+        totalFats: meal.totalFats + operation * foodItem.fats,
+        totalProtein: meal.totalProtein + operation * foodItem.protein,
+    };
+
+    const mealUpdated = await updateDailyMeal(meal, updates);
+    if (!mealUpdated) {
+        throw new Error('Cannot update DailyMeal aggregate');
+    }
+
+    const day = await updateDayAggregates(meal.day, foodItem, add);
+
+    return mealUpdated;
+};
+
+export const updateDayAggregates = async (day: Day, foodItem: FoodItem, add: Boolean): Promise<Day> => {
+    const operation = add ? 1: -1;
+    const updates: Partial<DailyMeal> = {
+        totalCalories: day.totalCalories + operation * foodItem.calories,
+        totalCarbs: day.totalCarbs + operation * foodItem.carbs,
+        totalFats: day.totalFats + operation * foodItem.fats,
+        totalProtein: day.totalProtein + operation * foodItem.protein,
+    };
+
+    const dayUpdated = await updateDay(day, updates);
+    if (!dayUpdated) {
+        throw new Error('Cannot update Day aggregate');
+    }
+
+    return dayUpdated;
 };
 
 export const createAndLogFood = async (meal: DailyMeal, foodData: FoodData, servingsData: Omit<ServingData, 'food'>[], quantity: number): Promise<FoodItem> => {
@@ -112,12 +148,15 @@ export const logFood = async (meal: DailyMeal, food: Food, serving: Serving, qua
     return foodItem;
 };
 
-export const updateMealAggregates = async (meal: DailyMeal, food: Food, foodItem: FoodItem, add: boolean): Promise<DailyMeal> => {
-    const operation = add ? 1: -1
-    const updates: Partial<DailyMeal> = {
-        totalCalories: meal.totalCalories + operation * foodItem.,
-        totalCarbs: meal.totalCarbs,
-        totalFats: meal.totalFats,
-        totalProtein: meal.totalProtein,
-    }
+
+export const unlogFood = async (meal: DailyMeal, foodItem: FoodItem): Promise<DailyMeal> => {
+    const updatedMeal = await updateMealAggregates(meal, foodItem, false);
+
+    await deleteFoodItem(foodItem);
+
+    return updatedMeal;
+};
+
+export const getDayRange = async (startDay: Date, endDay: Date): Promise<Day[]> => {
+    return await fetchDayRange(startDay, endDay);
 }

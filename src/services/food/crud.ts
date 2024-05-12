@@ -11,7 +11,15 @@ import { formatDay } from '@utils/index';
 export const fetchDay = async (day: Date): Promise<Day | null> => {
     const days = await database.collections.get<Day>('days').query(Q.where('date', Q.eq(formatDay(day)))).fetch();
     return days.length > 0 ? days[0] : null;
-}
+};
+
+export const fetchDayRange = async (startDay: Date, endDay: Date): Promise<Day[]> => {
+    const days = await database.collections.get<Day>('days').query(
+        Q.where('date', Q.lte(formatDay(endDay))),
+        Q.where('date', Q.gte(formatDay(startDay)))
+    ).fetch();
+    return days;
+};
 
 export const fetchDays = async (): Promise<Day[]> => {
     return await database.collections.get<Day>('days').query().fetch();
