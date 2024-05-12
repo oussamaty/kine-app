@@ -5,29 +5,30 @@ import { isNumeric } from '@utils/index';
 
 type LabelInputType = "text" | "numeric";
 type LabelInputValue = string | number | undefined;
- 
+
 type LabelInputProps = {
-    label: string;
-    type?: LabelInputType;
-    unit?: string;
-    initialValue?: LabelInputValue;
-    minValue?: number;
-    maxValue?: number;
-    isRequired?: boolean;
-    isDisabled?: boolean;
-    onChange?: (text: string) => void;
-    valueRef?: MutableRefObject<LabelInputValue>;
-    style?: ViewStyle;
+  label: string;
+  type?: LabelInputType;
+  unit?: string;
+  initialValue?: LabelInputValue;
+  minValue?: number;
+  maxValue?: number;
+  isRequired?: boolean;
+  isDisabled?: boolean;
+  onChange?: (text: string) => void;
+  valueRef?: MutableRefObject<LabelInputValue>;
+  onErrorChange?: (error: boolean) => void;
+  style?: ViewStyle;
 }
 
-const LabelInput: React.FC<LabelInputProps> = ({ label, type, unit, initialValue, minValue, maxValue, isRequired, isDisabled, onChange, valueRef, style }) => {
+const LabelInput: React.FC<LabelInputProps> = ({ label, type, unit, initialValue, minValue, maxValue, isRequired, isDisabled, onChange, valueRef, style, onErrorChange }) => {
   const startFloating = initialValue !== undefined && initialValue !== "";
-  const defaultValue = initialValue === undefined ? undefined: initialValue.toString();
+  const defaultValue = initialValue === undefined ? undefined : initialValue.toString();
 
   const [floatingLabel, setFloatingLabel] = useState<boolean>(startFloating);
   const [error, setError] = useState<string | undefined>();
 
-  const labelAnim = useRef(new Animated.Value(startFloating ? 1: 0)).current;
+  const labelAnim = useRef(new Animated.Value(startFloating ? 1 : 0)).current;
   const inputValue = useRef<string | undefined>(defaultValue);
 
   useEffect(() => {
@@ -57,11 +58,18 @@ const LabelInput: React.FC<LabelInputProps> = ({ label, type, unit, initialValue
       const requiredFieldError = "Please fill this field";
       if (error !== requiredFieldError) {
         setError("Please fill this field");
+        if (onErrorChange) {
+          onErrorChange(true)
+        }
       }
     } else if (type === "numeric" && !isNumeric(text) && text !== "") {
       const validNumberError = "Please provide a valid number";
       if (error != validNumberError) {
         setError(validNumberError);
+        if (onErrorChange) {
+          onErrorChange(true)
+        }
+
       }
     } else if (type === "numeric" && isNumeric(text)) {
       const value = parseInt(text);
@@ -69,12 +77,21 @@ const LabelInput: React.FC<LabelInputProps> = ({ label, type, unit, initialValue
         const rangeError = "Please provide a reasonable number";
         if (error != rangeError) {
           setError(rangeError)
+          if (onErrorChange) {
+            onErrorChange(true)
+          }
         }
       } else if (error) {
         setError(undefined);
+        if (onErrorChange) {
+          onErrorChange(false)
+        }
       }
     } else if (error) {
       setError(undefined);
+      if (onErrorChange) {
+        onErrorChange(false)
+      }
     }
 
     if (valueRef) {
@@ -107,7 +124,7 @@ const LabelInput: React.FC<LabelInputProps> = ({ label, type, unit, initialValue
       inputRange: [0, 1],
       outputRange: [40, 0],
     }),
-    
+
     fontSize: labelAnim.interpolate({
       inputRange: [0, 1],
       outputRange: [20, 16],
@@ -116,8 +133,8 @@ const LabelInput: React.FC<LabelInputProps> = ({ label, type, unit, initialValue
     fontWeight: labelAnim.interpolate({
       inputRange: [0, 1],
       outputRange: ['400', '700'],
-    }), 
-    
+    }),
+
     color: labelAnim.interpolate({
       inputRange: [0, 1],
       outputRange: ['#555', '#000'],
@@ -129,19 +146,19 @@ const LabelInput: React.FC<LabelInputProps> = ({ label, type, unit, initialValue
       <Animated.Text style={labelStyle}>
         {label}
       </Animated.Text>
-      <View style={[styles.InputField, error ? styles.InputFieldError: styles.InputFieldFocus]}>
+      <View style={[styles.InputField, error ? styles.InputFieldError : styles.InputFieldFocus]}>
         <TextInput
           style={styles.Input}
           aria-disabled={isDisabled === true}
-          keyboardType={type === "numeric" ? "numeric": "default"}
+          keyboardType={type === "numeric" ? "numeric" : "default"}
           defaultValue={defaultValue}
           onFocus={handleFocus}
           onBlur={handleBlur}
           onChangeText={handleChange}
         />
-        { unit && <Text style={[styles.Unit, error ? styles.UnitError: styles.UnitFocus]} numberOfLines={1} ellipsizeMode="tail">{unit}</Text>} 
+        {unit && <Text style={[styles.Unit, error ? styles.UnitError : styles.UnitFocus]} numberOfLines={1} ellipsizeMode="tail">{unit}</Text>}
       </View>
-      { error && <Text style={styles.Error}>{error}</Text>}
+      {error && <Text style={styles.Error}>{error}</Text>}
     </View>
   );
 };

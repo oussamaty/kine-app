@@ -3,6 +3,10 @@ import {
   UserActionTypes,
   UPDATE_USER_STATE,
   PURGE_USER_STATE,
+  HeightUnit,
+  WeightUnit,
+  LiquidUnit,
+  EnergyUnit,
 } from '@redux/types/userTypes';
 
 const initialState: UserState = {
@@ -22,7 +26,16 @@ const initialState: UserState = {
   tdee: null,
   calories: null,
   error: null,
-  profilePicture: null,
+  profilePicture: undefined,
+  heightUnit: HeightUnit.CM,
+  weightUnit: WeightUnit.KG,
+  liquidUnit: LiquidUnit.L,
+  energyUnit: EnergyUnit.CAL,
+  heightToDisplay: null,
+  weightToDisplay: null,
+  targetToDisplay: null,
+  tdeeToDisplay: null,
+  caloriesToDisplay: null,
 };
 
 const userReducer = (state = initialState, action: UserActionTypes): UserState => {
