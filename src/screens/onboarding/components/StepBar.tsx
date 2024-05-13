@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
         fontFamily: Roboto.black,
         fontWeight: '700',
         fontSize: 16,
+        color: '#000',
     },
 
     StepLine: {

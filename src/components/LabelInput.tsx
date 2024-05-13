@@ -72,7 +72,7 @@ const LabelInput: React.FC<LabelInputProps> = ({ label, type, unit, initialValue
 
       }
     } else if (type === "numeric" && isNumeric(text)) {
-      const value = parseInt(text);
+      const value = parseFloat(text);
       if ((minValue && value < minValue) || (maxValue && value > maxValue)) {
         const rangeError = "Please provide a reasonable number";
         if (error != rangeError) {
@@ -97,7 +97,7 @@ const LabelInput: React.FC<LabelInputProps> = ({ label, type, unit, initialValue
     if (valueRef) {
       if (type === "numeric") {
         if (isNumeric(text)) {
-          const value = parseInt(text);
+          const value = parseFloat(text);
           if ((minValue && value < minValue) || (maxValue && value > maxValue)) {
             valueRef.current = undefined;
           } else {

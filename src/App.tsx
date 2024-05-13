@@ -7,19 +7,23 @@ import { PersistGate } from 'redux-persist/integration/react';
 import SplashScreen from '@components/SplashScreen';
 import Toast from 'react-native-toast-message';
 import { ToastConfig } from '@config/toast/toast';
+import { DatabaseProvider } from '@nozbe/watermelondb/react'
+import database from '@db/index';
 
 
 const App: React.FC = () => {
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={<SplashScreen />} persistor={persistor}>
-        <NavigationContainer>
-          <Navigation />
-        </NavigationContainer>
-        <Toast config={ToastConfig} />
-      </PersistGate>
-    </Provider>
+    <DatabaseProvider database={database}>
+      <Provider store={store}>
+        <PersistGate loading={<SplashScreen />} persistor={persistor}>
+          <NavigationContainer>
+            <Navigation />
+          </NavigationContainer>
+          <Toast config={ToastConfig} />
+        </PersistGate>
+      </Provider>
+    </DatabaseProvider>
   );
 }
 

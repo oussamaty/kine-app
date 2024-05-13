@@ -15,8 +15,8 @@ class Food extends Model {
   @field('name') name!: string;
   @field('calories') calories!: number;
   @field('carbs') carbs!: number;
-  @field('protein') protein!: number;
-  @field('fats') fats!: number;
+  @field('proteins') proteins!: number;
+  @field('fat') fat!: number;
   @children('servings') servings!: Serving[];
   @children('food_items') foodItems!: FoodItem[];
 };
@@ -26,8 +26,8 @@ export type FoodData = {
   name: string,
   calories: number,
   carbs: number,
-  protein: number,
-  fats: number,
+  proteins: number,
+  fat: number,
 };
 
 export default Food;

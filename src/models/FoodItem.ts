@@ -8,30 +8,30 @@ import Food from "@models/Food";
 class FoodItem extends Model {
     static table = 'food_items';
     static associations: Associations = {
-      meal: { type: 'belongs_to', key: 'meal_id' },
-      serving: { type: 'belongs_to', key: 'serving_id' },
-      food: { type: 'belongs_to', key: 'food_id' }
+      daily_meals: { type: 'belongs_to', key: 'meal_id' },
+      food: { type: 'belongs_to', key: 'food_id' },
+      servings: { type: 'belongs_to', key: 'serving_id' },
     };
   
-    @relation('meal', 'meal_id') meal!: DailyMeal;
-    @relation('serving', 'serving_id') serving!: Serving;
+    @relation('daily_meals', 'meal_id') meal!: DailyMeal;
     @relation('food', 'food_id') food!: Food;
+    @relation('servings', 'serving_id') serving!: Serving;
     @field('quantity') quantity!: number;
     @field('calories') calories!: number;
-    @field('fats') fats!: number;
+    @field('fat') fat!: number;
     @field('carbs') carbs!: number;
-    @field('protein') protein!: number;
+    @field('proteins') proteins!: number;
 };
 
 export type FoodItemData = {
   meal: DailyMeal,
-  serving: Serving,
   food: Food,
+  serving: Serving,
   quantity: number,
   calories: number,
-  fats: number,
+  fat: number,
   carbs: number,
-  protein: number,
+  proteins: number,
 };
 
 export default FoodItem;

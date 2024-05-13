@@ -48,11 +48,6 @@ const BottomBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation
             icon: ActivityIcon,
         },
         {
-            name: "Meal",
-            label: "Meal",
-            icon: MealIcon,
-        },
-        {
             name: "Profile",
             label: "Profile",
             icon: ProfileIcon,

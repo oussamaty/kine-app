@@ -4,32 +4,32 @@ import { SvgProps } from 'react-native-svg';
 import Icon from '@components/Icon';
 import PlusIcon from '@assets/icons/plus.svg';
 import { Roboto } from '@theme/font';
+import DailyMeal, { MealType } from '@models/DailyMeal';
+import withObservables from '@nozbe/with-observables';
 
 type DailyMealButtonProps = {
-    meal: string,
+    daily_meals: DailyMeal,
     time: string;
     label: string;
-    consumedCalories: number;
-    targetCalories: number;
     icon: React.FC<SvgProps>;
     onIconPress: (meal: string) => void;
     onButtonPress: (meal: string) => void;
     style?: ViewStyle;
 };
 
-const DailyMealButton: React.FC<DailyMealButtonProps> = ({ meal, time, label, consumedCalories, targetCalories, icon, onIconPress, onButtonPress, style }) => {
+const DailyMealButton: React.FC<DailyMealButtonProps> = ({ daily_meals, time, icon, onIconPress, onButtonPress, style }) => {
 
     return (
         <View style={[styles.Container, style]}>
-            <TouchableOpacity style={styles.IconButton} onPress={() => onIconPress(meal)}>
+            <TouchableOpacity style={styles.IconButton} onPress={() => onIconPress(daily_meals.type)}>
                 <Icon Source={icon} fill='#211951' style={styles.Icon} />
             </TouchableOpacity>
             <View style={styles.Content}>
                 <Text style={styles.Time}>{`🔔 ${time}`}</Text>
-                <Text style={styles.Label}>{label}</Text>
-                <Text style={styles.Calories}>{`${consumedCalories} Kcal out of ${targetCalories} Kcal`}</Text>
+                <Text style={styles.Label}>{MealType[daily_meals.type]}</Text>
+                <Text style={styles.Calories}>{`${daily_meals.totalCalories.toFixed(0)} Kcal out of ${daily_meals.targetCalories.toFixed(0)} Kcal`}</Text>
             </View>
-            <TouchableOpacity style={styles.AddButton} onPress={() => onButtonPress(meal)}>
+            <TouchableOpacity style={styles.AddButton} onPress={() => onButtonPress(daily_meals.type)}>
                 <Icon Source={PlusIcon} fill='#211951' style={styles.AddIcon}/>
             </TouchableOpacity>
         </View>
@@ -114,4 +114,10 @@ const styles = StyleSheet.create({
 
 });
 
-export default DailyMealButton;
+const enhance = withObservables(['daily_meals'], ({ daily_meals }) => ({
+    daily_meals
+}));
+  
+const EnhancedDailyMealButton = enhance(DailyMealButton);
+
+export default EnhancedDailyMealButton;

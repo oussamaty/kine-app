@@ -1,66 +1,103 @@
 import * as React from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ImageBackground, StyleSheet, Text, View } from 'react-native';
 import ScreenHeader from '@components/ScreenHeader';
 import ScrollableScreen from '@components/ScrollableScreen';
 import { DetailsFoodScreenProp } from '@navigation/types';
 import Button from '@components/Button';
-import NutrientsInfo from '@screens/food/components/NutrientsInfo';
 import { Roboto } from '@theme/font';
-import Input from '@components/Input';
 import SelectInput from '@components/SelectInput';
+import Food from '@models/Food';
+import Serving from '@models/Serving';
+import { getFoodWithServingsAndMeal, logFood } from '@services/food';
+import Toast from 'react-native-toast-message';
+import EnhancedFoodNutrientsInfo from '@screens/food/components/FoodNutrientsInfo';
+import LabelInput from '@components/LabelInput';
+import Loading from '@components/Loading';
+import DailyMeal from '@models/DailyMeal';
 
-const DetailsFoodScreen: React.FC<DetailsFoodScreenProp> = ({ navigation }) => {
+const DetailsFoodScreen: React.FC<DetailsFoodScreenProp> = ({ route, navigation }) => {
+
+    const mealId = route.params.mealId;
+    const foodId = route.params.foodId;
+
+    const [mealRecord, setMealRecord] = useState<DailyMeal>();
+    const [foodRecord, setFoodRecord] = useState<Food>();
+    const [servingRecords, setServingRecords] = useState<Serving[]>([]);
+    const [isLoading, setLoading] = useState<boolean>(true);
+
+    const servingRef = useRef<number>(0);
+    const quantityRef = useRef<number>(1);
+
+    useEffect(() => {
+        getFoodWithServingsAndMeal(foodId, mealId)
+            .then(([meal, food, servings]) => {
+                setFoodRecord(food);
+                setMealRecord(meal);
+                if (!servings || servings.length === 0) {
+                    throw new Error('Cannot load Serving records');
+                }
+                setServingRecords(servings ?? []);
+                setLoading(false);
+            })
+            .catch(e => {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Error Loading Data',
+                });
+                navigation.goBack();
+                setLoading(false);
+                console.log('Error:', e.message);
+            });
+    }, [foodId]);
 
     const handleBackPress = () => {
         navigation.goBack();
-    }
+    };
 
-    const nutrients = [
-        {
-            label: 'Calories',
-            consumed: 0,
-            target: 420,
-            unit: 'Kcal',
-            color: '#49D49D',
-        },
-        {
-            label: 'Protein',
-            consumed: 0,
-            target: 20,
-            unit: 'g',
-            color: '#F7A072',
-        },
-        {
-            label: 'Carbs',
-            consumed: 0,
-            target: 75,
-            unit: 'g',
-            color: '#0FA3B1',
-        },
-        {
-            label: 'Fats',
-            consumed: 0,
-            target: 30,
-            unit: 'g',
-            color: '#EDDEA4',
-        },
-    ];
+    const servingsToOptions = (servings: Serving[]) => {
+        return servings.map((serving, index) => {
+            return {
+                key: index,
+                label: serving.name,
+                amout: serving.amount,
+            }
+        })
+    };
 
-    const logFood = () => {
-
+    const handleLogFood = () => {
+        setLoading(true);
+        logFood(mealRecord!, foodRecord!, servingRecords[servingRef.current], quantityRef.current).then(foodItem => {
+            setLoading(false);
+            Toast.show({
+                type: 'success',
+                text1: 'Food Logged',
+            });
+            navigation.navigate('MainFood');
+        }).catch(e => {
+            Toast.show({
+                type: 'error',
+                text1: 'Error Logging Food',
+            });
+            setLoading(false);
+            console.log('Error:', e.message);
+        });
     };
 
     return (
         <ScrollableScreen style={styles.Container}>
             <ScreenHeader title={'Details'} onPress={handleBackPress} />
             <ImageBackground source={require('@assets/images/breakfast.jpg')} style={styles.Image} />
-            <Text style={styles.Title}>Boiled Egg</Text>
-            <View style={styles.Servings}>
-                <Input style={styles.Input} />
-                <SelectInput style={styles.Select} label='Serving' options={[{ key: 'large', label: 'Large' }, { key: 'medium', label: 'Medium' }, { key: 'small', label: 'Small' },]} />
-            </View>
-            <NutrientsInfo title='Nutrients' nutrients={nutrients} />
-            <Button title='Add Food' onPress={() => logFood()} style={styles.Button} textStyle={styles.ButtonText}/>
+            { isLoading && <Loading /> }
+            { !isLoading && <Text style={styles.Title}>{foodRecord?.name ?? ""}</Text> }
+            { !isLoading &&
+                <View style={styles.Servings}>
+                    <LabelInput  valueRef={quantityRef} label='Qunt' type="numeric" maxValue={10} minValue={1} initialValue={1} isRequired={true} style={styles.Input} />
+                    <SelectInput valueRef={servingRef}  style={styles.Select} label='Serving' initialOption={0} options={servingsToOptions(servingRecords)} />
+                </View>
+            }
+            { !isLoading && <Button title='Add Food' onPress={handleLogFood} style={styles.Button} textStyle={styles.ButtonText}/> }
+            { !isLoading && <EnhancedFoodNutrientsInfo title='Nutrional Info (100g)' food={foodRecord} style={styles.Nutrients} /> }
         </ScrollableScreen>
     )
 };
@@ -72,7 +109,7 @@ const styles = StyleSheet.create({
 
     Image: {
         width: '100%',
-        height: 240,
+        height: 230,
         borderRadius: 25,
     },
 
@@ -82,6 +119,7 @@ const styles = StyleSheet.create({
         lineHeight: 28,
         fontWeight: '900',
         color: '#000',
+        width: '100%',
     },
 
     Servings: {
@@ -116,6 +154,10 @@ const styles = StyleSheet.create({
     ButtonText: {
         color: '#211951',
     },
+
+    Nutrients: {
+        paddingHorizontal: 12,
+    }
 });
 
 export default DetailsFoodScreen;

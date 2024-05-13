@@ -26,7 +26,7 @@ const initialState: UserState = {
   tdee: null,
   calories: null,
   error: null,
-  profilePicture: undefined,
+  profilePicture: null,
   heightUnit: HeightUnit.CM,
   weightUnit: WeightUnit.KG,
   liquidUnit: LiquidUnit.L,
@@ -36,6 +36,17 @@ const initialState: UserState = {
   targetToDisplay: null,
   tdeeToDisplay: null,
   caloriesToDisplay: null,
+  nutrientRatios: {
+    proteins: 0.2,
+    carbs: 0.5,
+    fat: 0.3
+  },
+  mealRatios: {
+    BREAKFAST: 0.2,
+    LUNCH: 0.4,
+    DINNER: 0.3,
+    SNACK: 0.1
+  }
 };
 
 const userReducer = (state = initialState, action: UserActionTypes): UserState => {

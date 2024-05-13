@@ -6,14 +6,22 @@ type ProgressBarProps = {
     color?: ColorValue;
     backgroundColor?: ColorValue;
     style?: ViewStyle;
+    horizental?: boolean;
 }
 
-const ProgressBar: React.FC<ProgressBarProps> = ({ progress, color, backgroundColor, style }) => {
-    const width = `${progress}%` as DimensionValue;
+const ProgressBar: React.FC<ProgressBarProps> = ({ progress, color, backgroundColor, style, horizental }) => {
+    const dim = `${progress}%` as DimensionValue;
 
     return (
         <View style={[styles.Container, { backgroundColor: backgroundColor ?? "#eee" }, style]}>
-            <View style={[styles.Progress, { width, backgroundColor: color ?? "#15F5BA" }]}></View>
+            <View style={
+                    [
+                        styles.Progress,
+                        horizental ?
+                            { height: dim, width: '100%', backgroundColor: color ?? "#15F5BA" } :
+                            { width: dim, height: "100%", backgroundColor: color ?? "#15F5BA" }
+                    ]
+                }></View>
         </View>
     )
 }
@@ -25,10 +33,11 @@ const styles = StyleSheet.create({
         height: 10,
         width: 100,
         borderRadius: 100,
+        display: 'flex',
+        flexDirection: 'column-reverse',
     },
 
     Progress: {
-        height: "100%",
         borderRadius: 100,
     },
 });

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useRef, useEffect, Dispatch, MutableRefObject, SetStateAction } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import LabelInput from '@components/LabelInput';
 import Icon from '@components/Icon';
@@ -6,18 +7,77 @@ import Minus from '@assets/icons/minus.svg';
 import Plus from '@assets/icons/plus.svg';
 
 type EditableListProps = {
-
+    nameLabel: string;
+    valueLabel: string;
+    check: boolean;
+    setList: Dispatch<SetStateAction<{ name: string, value: number }[] | undefined>>;
+    initalValues?: { name: string, value: number }[];
 };
 
-const EditableList: React.FC<EditableListProps> = ({  }) => {
+const EditableList: React.FC<EditableListProps> = ({ nameLabel, valueLabel, initalValues, check, setList }) => {
+
+    const [items, setItems] = useState<{ name: string | undefined, value: number | undefined }[]>(initalValues ?? []);
+    const [count, setCount] = useState<number>(0);
+    const [itemsCheck, setItemCheck] = useState<boolean>(false);
+
+    const handleItemDelete = (itemIdx: number) => {
+        setItems(items => items.filter((item, index) => index != itemIdx));
+    };
+
+    const handleItemAdd = () => {
+        setItems(items => items.concat([{ name: undefined, value: undefined }]));
+    };
+
+    useEffect(() => {
+        if (check) {
+            setCount(0);
+            setItemCheck(true);
+        }
+    }, [check])
+
+    useEffect(() => {
+        if (count === items.length) {
+            const list = items.reduce<{ name: string, value: number }[] | undefined>((accumulator , current) => {
+                if (accumulator === undefined) {
+                    return undefined;
+                }
+
+                if (current.name === undefined || current.value === undefined) {
+                    return undefined;
+                }
+
+                return accumulator.concat([{
+                    name: current.name,
+                    value: current.value
+                }]);
+
+            }, []);
+
+            setList(list);
+            setItemCheck(false);
+        }
+    }, [count]);
 
     return (
         <View style={styles.Container}>
             <View style={styles.Items}>
-                <EditableItem key={0} />
-                <EditableItem key={1} />
+                {
+                    items.map((item, index) => (
+                        <EditableItem
+                            key={index}
+                            index={index}
+                            nameLabel={nameLabel}
+                            valueLabel={valueLabel}
+                            name={item.name}
+                            value={item.value}
+                            onDeletePress={() => handleItemDelete(index)}
+                            check={itemsCheck}
+                            setItems={setItems}
+                            setCount={setCount} />
+                    ))
+                }
             </View>
-            <TouchableOpacity style={styles.AddButton}>
+            <TouchableOpacity onPress={handleItemAdd} style={styles.AddButton}>
                 <Icon Source={Plus} fill='#211951' style={styles.AddIcon} />
             </TouchableOpacity>
         </View>
@@ -25,18 +85,54 @@ const EditableList: React.FC<EditableListProps> = ({  }) => {
 };
 
 type EditableItemProps = {
-
+    index: number;
+    nameLabel: string;
+    valueLabel: string;
+    name?: string;
+    value?: number;
+    onDeletePress?: () => void;
+    check: boolean;
+    setItems: Dispatch<SetStateAction<{ name: string | undefined, value: number | undefined }[]>>;
+    setCount: Dispatch<SetStateAction<number>>;
 };
 
-const EditableItem: React.FC<EditableItemProps> = ({  }) => {
+const EditableItem: React.FC<EditableItemProps> = ({ index, nameLabel, valueLabel, name, value, onDeletePress, check, setItems, setCount }) => {
+    const nameRef = useRef<string | undefined>(name);
+    const valueRef = useRef<number | undefined>(value);
+
+    useEffect(() => {
+        if (check) {
+            setItems(items => items.map((item, idx) => {
+                if (index === idx) {
+                    return {
+                        name: nameRef.current,
+                        value: valueRef.current
+                    };
+                }
+                return item;
+            }));
+            setCount(count => count + 1);
+        }
+    }, [check])
 
     return (
         <View style={styles.Item}>
-            <TouchableOpacity style={styles.ItemButton}>
+            <TouchableOpacity onPress={onDeletePress} style={styles.ItemButton}>
                 <Icon Source={Minus} fill='#fff' style={styles.ItemIcon} />
             </TouchableOpacity>
-            <LabelInput label='Serving' style={styles.ItemServing} />
-            <LabelInput label='Weight (g)' style={styles.ItemAmount}/>
+            <LabelInput
+                label={nameLabel}
+                type='text'
+                valueRef={nameRef}
+                initialValue={name}
+                style={styles.ItemServing} />
+            <LabelInput
+                label={valueLabel}
+                type='numeric'
+                valueRef={valueRef}
+                initialValue={value}
+                minValue={0}
+                style={styles.ItemAmount} />
         </View>
     )
 }
@@ -97,11 +193,11 @@ const styles = StyleSheet.create({
     },
 
     ItemServing: {
-        flex: 3
+        flex: 1
     },
 
     ItemAmount: {
-        flex: 2
+        flex: 1
     }
 });
 

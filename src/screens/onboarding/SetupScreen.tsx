@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SetupScreenProp } from '@navigation/types';
 import { Roboto } from '@theme/font';
-import FixedScreen from '@components/FixedScreen';
 import ScreenHeader from '@components/ScreenHeader';
 import StepBar from '@screens/onboarding/components/StepBar';
 import Button from '@components/Button';
@@ -21,6 +20,7 @@ import { calculateTDEE } from '@redux/actions/userActions';
 import Loading from '@components/Loading';
 import { requestStateFlush, startLoading } from '@redux/actions/requestActions';
 import Toast from 'react-native-toast-message';
+import FixedScreen from '@components/FixedScreen';
 
 const SetupScreen: React.FC<SetupScreenProp> = ({ navigation }) => {
 
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     padding: 0,
-    gap: 30,
+    gap: 20,
   },
 
   Bottom: {
@@ -144,13 +144,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
     padding: 5,
-    paddingTop: 30,
   },
 
   Disclaimer: {
     textAlign: 'center',
     fontFamily: Roboto.regular,
     fontSize: 14,
+    color: '#999',
   },
 
   Button: {

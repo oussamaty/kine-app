@@ -21,7 +21,6 @@ const AppNavigation: React.FC = () => {
             <Bar.Screen name="Home" component={HomeNavigation} />
             <Bar.Screen name="Food" component={FoodNavigation} />
             <Bar.Screen name="Activity" component={ActivityNavigation} />
-            <Bar.Screen name="Meal" component={MealNavigation} />
             <Bar.Screen name="Profile" component={ProfileNavigation} />
         </Bar.Navigator>
     )

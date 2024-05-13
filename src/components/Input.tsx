@@ -1,21 +1,26 @@
 import React, { useState, useRef, MutableRefObject } from 'react';
-import { View, TextInput, StyleSheet, ViewStyle, Text } from 'react-native';
+import { View, TextInput, StyleSheet, ViewStyle, Text, TouchableOpacity } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 import Icon from '@components/Icon';
  
+type InputType = "text" | "numeric";
+
 type InputProps = {
     placeholder?: string;
+    type?: InputType;
     initialValue?: string;
     iconLeft?: React.FC<SvgProps>;
     iconRight?: React.FC<SvgProps>;
     isRequired?: boolean;
     isDisabled?: boolean;
     onChange?: (text: string) => void;
+    onIconLeftPress?: () => void;
+    onIconRightPress?: () => void;
     valueRef?: MutableRefObject<string>;
     style?: ViewStyle;
 }
 
-const Input: React.FC<InputProps> = ({ placeholder, initialValue, iconLeft, iconRight, isRequired, isDisabled, onChange, valueRef, style }) => {
+const Input: React.FC<InputProps> = ({ placeholder, type, initialValue, iconLeft, iconRight, isRequired, isDisabled, onChange,  onIconLeftPress, onIconRightPress, valueRef, style }) => {
   const defaultValue = initialValue === undefined ? undefined: initialValue.toString();
 
   const [error, setError] = useState<string | undefined>();
@@ -46,9 +51,9 @@ const Input: React.FC<InputProps> = ({ placeholder, initialValue, iconLeft, icon
     <View style={[styles.Container, style]}>
         <View style={[styles.InputField, error ? styles.InputFieldError: styles.InputFieldFocus]}>
             { iconLeft &&
-                <View style={styles.IconWrapperLeft}>
+                <TouchableOpacity style={styles.IconWrapperLeft} onPress={onIconLeftPress}>
                     <Icon Source={iconLeft} style={styles.Icon} fill="#444"/>
-                </View>
+                </TouchableOpacity>
             }
             <TextInput
                 style={styles.Input}
@@ -58,9 +63,9 @@ const Input: React.FC<InputProps> = ({ placeholder, initialValue, iconLeft, icon
                 placeholder={placeholder}
                 />
             { iconRight &&
-                <View style={styles.IconWrapperRight}>
+                <TouchableOpacity style={styles.IconWrapperRight} onPress={onIconRightPress}>
                     <Icon Source={iconRight} style={styles.Icon} fill="#444"/>
-                </View>
+                </TouchableOpacity>
             }
         </View>
         { error && <Text style={styles.Error}>{error}</Text>}

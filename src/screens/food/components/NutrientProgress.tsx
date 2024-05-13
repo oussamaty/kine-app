@@ -15,7 +15,7 @@ const NutrientProgress: React.FC<NutrientProgressProps> = ({ label, progress, am
 
     return (
         <View style={[styles.Container, style]}>
-            <Text style={styles.Amount}>{ `${amount} ${unit}` }</Text>
+            <Text style={styles.Amount}>{ `${amount.toFixed(0)} ${unit}` }</Text>
             <ProgressBar progress={progress} style={styles.ProgressBar} />
             <Text style={styles.Label}>{label}</Text>
         </View>

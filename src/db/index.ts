@@ -14,7 +14,7 @@ const adapter = new SQLiteAdapter({
     schema,
     //migrations,
     dbName: 'KineDB',
-    jsi: true, /* Platform.OS === 'ios' */
+    jsi: Platform.OS === 'ios',
     onSetUpError: error => {
 
     }
@@ -25,9 +25,9 @@ const database = new Database({
     modelClasses: [
         Day,
         DailyMeal,
-        FoodItem,
         Food,
-        Serving
+        Serving,
+        FoodItem,
     ],
 });
 

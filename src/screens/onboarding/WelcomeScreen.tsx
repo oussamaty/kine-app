@@ -34,7 +34,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProp> = ({ navigation }) => {
                         fitness journey.
                     </Text>
                 </View>
-                <Button title="Get Started" onPress={getStarted} />
+                <Button title="Get Started" style={styles.Button} onPress={getStarted} />
             </View>
         </FixedScreen>
     )
@@ -42,7 +42,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProp> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     Screen: {
-        
+        justifyContent: 'center',
     },
 
     Layout: {
@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         alignItems: "center",
         width: "100%",
-        paddingTop: 180,
         gap: 40,
     },
 
@@ -93,6 +92,10 @@ const styles = StyleSheet.create({
         fontFamily: Roboto.medium,
         fontWeight: "500",
         textAlign: "center",
+    },
+
+    Button: {
+        width: '80%',
     },
 
     LoginMessageWrapper: {

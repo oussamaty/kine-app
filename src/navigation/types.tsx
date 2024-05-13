@@ -1,4 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import DailyMeal from '@models/DailyMeal';
+import Food from '@models/Food';
 
 export type AuthStackParamList = {
   Welcome: undefined;
@@ -17,10 +19,10 @@ export type SetupScreenProp = NativeStackScreenProps<
 
 export type FoodStackParamList = {
   MainFood: undefined;
-  DailyMeal: undefined;
-  LogFood: undefined;
-  DetailsFood: undefined;
-  CreateFood: undefined;
+  DailyMeal: { mealId: string };
+  LogFood: { mealId: string };
+  DetailsFood: { mealId: string, foodId: string };
+  CreateFood: { mealId: string };
 };
 
 export type MainFoodScreenProp = NativeStackScreenProps<

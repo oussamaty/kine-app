@@ -25,7 +25,7 @@ const CaloriesBar: React.FC<CaloriesBarProps> = ({ calories, progress, style }) 
                 }}
                 />
             <View style={styles.Calories}>
-                <Text style={styles.Amount}>{calories}</Text>
+                <Text style={styles.Amount}>{calories.toFixed(0)}</Text>
                 <Text style={styles.Unit}>KCAL</Text>
             </View>
         </View>

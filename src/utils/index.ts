@@ -1,4 +1,4 @@
-export const isNumeric = (text: string): boolean => text.match(/^[0-9]+$/) !== null;
+export const isNumeric = (text: string): boolean => text.match(/^-?\d+(\.\d+)?$/) !== null;
 
 const weekDays = {
     0: 'Sun',
@@ -19,3 +19,31 @@ export const weekDay = (day: number): string => {
 };
 
 export const formatDay = (day: Date): string => day.toISOString().split('T')[0];
+
+export const multiplyMaps = (firstMap: Record<any, number>, secondMap: Record<any, number>): Record<any, Record<any, number>> => {
+    const result = {};
+    for (let key in firstMap) {
+        result[key] = {};
+        for (let k in secondMap) {
+            result[key][k] = secondMap[k] * firstMap[key];
+        }
+    }
+    return result;
+};
+
+export const elementMultMaps = (firstMap: Record<any, number>, secondMap: Record<any, number>): Record<any, number> => {
+    const result = {};
+    for (let key in firstMap) {
+        if (secondMap[key]) {
+            result[key] = firstMap[key] * secondMap[key];
+        }
+    }
+    return result;
+};
+
+
+export const checkTokenExp = (token: string, date: string): boolean => {
+    const currentDate = new Date();
+    const expDate = new Date(date);
+    return currentDate.toISOString() < expDate.toISOString();
+};

@@ -29,6 +29,7 @@ import { AuthorizeResult, RefreshResult } from 'react-native-app-auth';
 import { persistor } from '@redux/store';
 import { purgeUserState } from '@redux/actions/userActions';
 import { UserActionTypes } from '../types/userTypes';
+import database from '@db/index';
 
 // Synchronous action creators
 
@@ -103,7 +104,6 @@ export const loadTokenFailure = (error: string): AuthActionTypes => ({
 export const loginUser = (): ThunkAction<void, RootState, unknown, AuthActionTypes> => async (dispatch, getState) => {
     try {
         const response = await loginUserApi();
-        console.log(response);
         await saveToken(response);
         dispatch(loginSuccess(response));
     } catch (error: any) {
@@ -122,8 +122,8 @@ export const logoutUser = (): ThunkAction<void, RootState, unknown, AuthActionTy
         if (idToken) {
             await logoutUserApi(idToken);
         }
+        await database.adapter.unsafeResetDatabase();
         dispatch(logoutSuccess());
-        console.log(getState().auth);
     } catch (error: any) {
         dispatch(logoutFailure(error.message));
         console.log('Logout failed:', error.message);

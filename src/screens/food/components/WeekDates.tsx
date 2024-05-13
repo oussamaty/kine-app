@@ -1,19 +1,19 @@
 import * as React from 'react';
 import { memo, useState, useEffect, useRef, useCallback } from 'react';
-import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { weekDay } from '@utils/index';
+import { Dimensions, FlatList, ListRenderItem, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { formatDay, weekDay } from '@utils/index';
 import { Roboto } from '@theme/font';
+import { getDayRange } from 'src/services/food';
 
 type WeekDatesProps = {
-
+    currentDay: Date;
+    setCurrentDay: React.Dispatch<React.SetStateAction<Date>>;
 };
 
-const WeekDates: React.FC<WeekDatesProps> = ({  }) => {
+const WeekDates: React.FC<WeekDatesProps> = ({ currentDay, setCurrentDay }) => {
 
     const windowWidth = Dimensions.get('window').width;
-    const currentDate = new Date();
     const loadingRef = useRef(false);
-    const [active, setActive] = useState<string>(currentDate.toDateString());
     const [dates, setDates] = useState<Array<{ key: string, day: number, date: number, fullDate: string, status: number }>>([]);
 
     useEffect(() => {
@@ -22,11 +22,10 @@ const WeekDates: React.FC<WeekDatesProps> = ({  }) => {
     
     const loadInitialData = () => {
         loadingRef.current = true;
+        setDates([]);
         const maxDate = new Date();
-        maxDate.setDate(currentDate.getDate() + 3)
-        const initialDates = generateDates(maxDate, 14);
-        setDates(initialDates);
-        loadingRef.current = false;
+        maxDate.setDate(currentDay.getDate() + 3)
+        generateDates(maxDate, 14);
     };
 
     const loadMoreDates = () => {
@@ -34,12 +33,10 @@ const WeekDates: React.FC<WeekDatesProps> = ({  }) => {
         loadingRef.current = true;
         const lastDate = new Date(dates[dates.length - 1].key);
         lastDate.setDate(lastDate.getDate() - 1);
-        const moreDates = generateDates(lastDate, 14);
-        setDates(dates.concat(moreDates));
-        loadingRef.current = false;
+        generateDates(lastDate, 14);
     };
 
-    const generateDates = (startDate: Date, numDays: number) => {
+    const generateStaleDates = (startDate: Date, numDays: number) => {
         const dates = [];
         const date = new Date(startDate);
         for (let i = 0; i < numDays; i++) {
@@ -48,23 +45,49 @@ const WeekDates: React.FC<WeekDatesProps> = ({  }) => {
                 fullDate: date.toDateString(),
                 day: date.getDay(),
                 date: date.getDate(),
-                status: Math.floor(Math.random() * 3) - 1
+                status: 0,
             });
           
             date.setDate(date.getDate() - 1);
         }
         return dates;
+    }
+
+    const generateDates = async (startDate: Date, numDays: number) => {
+        const staleDates = generateStaleDates(startDate, numDays);
+        const endDate = new Date(startDate);
+        endDate.setDate(endDate.getDate() - numDays);
+        getDayRange(endDate, startDate)
+            .then(dayRange => {
+                const activeDates = staleDates.map((d, index) => {
+                    const idx = dayRange.findIndex(r => formatDay(new Date(d.key)) === r.date);
+                    if (idx > -1) {
+                        const ratio = dayRange[idx].totalCalories / dayRange[idx].targetCalories;
+                        return {
+                            ...d,
+                            status: ratio >= 1 ? 2: ratio !== 0? 1: 0,
+                        }
+                    }
+                    return d;
+                });
+                setDates(dates.concat(activeDates));
+                loadingRef.current = false;
+            }).catch(e => {
+                loadingRef.current = false;
+                console.log('Error:', e.message);
+            })
+        
     };
 
     const handleItemPress = (id: string) => {
-        setActive((new Date(id)).toDateString());
+        setCurrentDay(new Date(id));
     }
 
-    const renderItem = useCallback(({ item }: { item: { key: string, day: number, date: number, fullDate: string, status: number }}) => {
+    const renderItem: ListRenderItem< { key: string, day: number, date: number, fullDate: string, status: number }> = ({ item }) => {
         return (
-            <ListItem id={item.key} width={windowWidth} active={active === item.fullDate} day={item.day} date={item.date} status={item.status} onPress={handleItemPress} />
-        )
-    }, [active]);
+            <ListItem id={item.key} width={windowWidth} active={currentDay.toDateString() === item.fullDate} day={item.day} date={item.date} status={item.status} onPress={handleItemPress} />
+        );
+    }
 
     return (
         <FlatList
@@ -78,8 +101,7 @@ const WeekDates: React.FC<WeekDatesProps> = ({  }) => {
             onEndReachedThreshold={0.5}
             initialNumToRender={7}
             windowSize={5}
-            style={styles.List}
-            />
+            style={styles.List} />
     )
 };
 
@@ -93,18 +115,15 @@ type ListItemProps = {
     onPress: (key: string) => void
 };
 
-const ListItem = memo(
-  ({ id, width, active, day, date, status, onPress }: ListItemProps) => (
-    <TouchableOpacity style={[styles.Item, active ? styles.ActiveItem: styles.InactiveItem, { width: width / 8 }]} onPress={() => onPress(id)}>
-        <Text style={[styles.ItemDay, active ? styles.ActiveItemText: styles.InactiveItemText]}>{ `${weekDay(day)}` }</Text>
-        <Text style={[styles.ItemDate, active ? styles.ActiveItemText: styles.InactiveItemText]}>{ `${date}` }</Text>
-        <View style={[styles.ItemStatus, { backgroundColor: status === 1? "green": status === 0? "yellow": "red" }]}></View>
-    </TouchableOpacity>
-  ),
-  (prevProps, nextProps) => {
-    return prevProps.active === nextProps.active;
-  },
-);
+const ListItem = ({ id, width, active, day, date, status, onPress }: ListItemProps) => {
+    return (
+        <TouchableOpacity style={[styles.Item, active ? styles.ActiveItem: styles.InactiveItem, { width: width / 8 }]} onPress={() => onPress(id)}>
+            <Text style={[styles.ItemDay, active ? styles.ActiveItemText: styles.InactiveItemText]}>{ `${weekDay(day)}` }</Text>
+            <Text style={[styles.ItemDate, active ? styles.ActiveItemText: styles.InactiveItemText]}>{ `${date}` }</Text>
+            <View style={[styles.ItemStatus, { backgroundColor: status === 1? "yellow": status === 0? "gray": "green" }]}></View>
+        </TouchableOpacity>
+    )
+};
 
 const styles = StyleSheet.create({
     List: {

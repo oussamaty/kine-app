@@ -6,10 +6,10 @@ import { Associations } from '@nozbe/watermelondb/Model';
 class Day extends Model {
     static table = 'days';
     static associations: Associations = {
-      dailyMeals: { type: 'has_many', foreignKey: 'day_id' },
+      daily_meals: { type: 'has_many', foreignKey: 'day_id' },
     };
   
-    @date('date') date!: Date;
+    @field('date') date!: string;
     @field('total_calories') totalCalories!: number;
     @field('total_protein') totalProtein!: number;
     @field('total_carbs') totalCarbs!: number;
@@ -22,7 +22,7 @@ class Day extends Model {
 }
 
 export type DayData = {
-  date: Date,
+  date: string,
   totalCalories: number,
   totalProtein: number,
   totalCarbs: number,

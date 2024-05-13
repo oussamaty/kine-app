@@ -1,4 +1,5 @@
 import { Gender } from '@constants/enums';
+import { MealTypeKey } from '@models/DailyMeal';
 
 // State
 export interface UserState {
@@ -18,7 +19,7 @@ export interface UserState {
     tdee: number | null;
     calories: number | null;
     error: string | null;
-    profilePicture: string | undefined;
+    profilePicture: string | null;
     heightUnit: HeightUnit;
     weightUnit: WeightUnit;
     liquidUnit: LiquidUnit;
@@ -28,6 +29,8 @@ export interface UserState {
     targetToDisplay: number | null;
     tdeeToDisplay: number | null;
     caloriesToDisplay: number | null;
+    nutrientRatios : Record<NutrientKey, number>;
+    mealRatios: Record<MealTypeKey, number>;
 }
 
 // Enums
@@ -57,6 +60,14 @@ export enum EnergyUnit {
     CAL = "cal",
     KJ = "kJ"
 };
+
+export enum Nutrient {
+    proteins = "proteins",
+    carbs = 'carbs',
+    fat = 'fat'
+}
+
+export type NutrientKey = keyof typeof Nutrient;
 
 export type UserStateKey = keyof UserState;
 

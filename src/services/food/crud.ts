@@ -26,7 +26,7 @@ export const fetchDays = async (): Promise<Day[]> => {
 };
 
 export const addDay = async (dayData: DayData): Promise<Day> => {
-    return await database.action(async () => {
+    return await database.write(async () => {
         return await database.collections.get<Day>('days').create((day: any) => {
             day.date = dayData.date;
             day.totalCalories = dayData.totalCalories;
@@ -42,7 +42,7 @@ export const addDay = async (dayData: DayData): Promise<Day> => {
 };
 
 export const updateDay = async (day: Day, dayData: Partial<DayData>): Promise<Day> => {
-    return await database.action(async () => {
+    return await database.write(async () => {
         await day.update((d) => {
             d.date = dayData.date ?? d.date;
             d.totalCalories = dayData.totalCalories ?? d.totalCalories;
@@ -59,7 +59,7 @@ export const updateDay = async (day: Day, dayData: Partial<DayData>): Promise<Da
 };
 
 export const deleteDay = async (day: Day): Promise<Day> => {
-    return await database.action(async () => {
+    return await database.write(async () => {
         await day.markAsDeleted();
         return day;
     });
@@ -70,8 +70,12 @@ export const fetchDailyMeals = async (): Promise<DailyMeal[]> => {
     return await database.collections.get<DailyMeal>('daily_meals').query().fetch();
 };
 
+export const findDailMealById = async (mealId: string): Promise<DailyMeal> => {
+    return await database.collections.get<DailyMeal>('daily_meals').find(mealId);
+};
+
 export const addDailyMeal = async (mealData: DailyMealData): Promise<DailyMeal> => {
-    return await database.action(async () => {
+    return await database.write(async () => {
         return await database.collections.get<DailyMeal>('daily_meals').create((meal: any) => {
             meal.day.set(mealData.day);
             meal.type = mealData.type;
@@ -88,7 +92,7 @@ export const addDailyMeal = async (mealData: DailyMealData): Promise<DailyMeal> 
 };
 
 export const updateDailyMeal = async (meal: DailyMeal, mealData: Partial<DailyMealData>): Promise<DailyMeal> => {
-    return await database.action(async () => {
+    return await database.write(async () => {
         await meal.update((m) => {
             m.type = mealData.type ?? m.type;
             m.totalCalories = mealData.totalCalories ?? m.totalCalories;
@@ -105,7 +109,7 @@ export const updateDailyMeal = async (meal: DailyMeal, mealData: Partial<DailyMe
 };
 
 export const deleteDailyMeal = async (meal: DailyMeal): Promise<DailyMeal> => {
-    return await database.action(async () => {
+    return await database.write(async () => {
         await meal.markAsDeleted();
         return meal;
     });
@@ -116,33 +120,52 @@ export const fetchFoods = async (): Promise<Food[]> => {
     return await database.collections.get<Food>('food').query().fetch();
 };
 
+export const searchFoodByName = async (text: string): Promise<Food[]> => {
+    return await database.collections.get<Food>('food').query(
+        Q.where('name', Q.eq(text))
+    ).fetch();
+};
+
+export const findFoodById = async (id: string): Promise<Food> => {
+    return await database.collections.get<Food>('food').find(id);
+};
+
+export const findFoodByFoodId = async (foodId: number): Promise<Food | null> => {
+    const foods = await database.collections.get<Food>('food').query(
+        Q.where('fid', Q.eq(foodId))
+    ).fetch();
+    return foods.length > 0 ? foods[0] : null;
+}
+
 export const addFood = async (foodData: FoodData): Promise<Food> => {
-    return await database.action(async () => {
+    return await database.write(async () => {
         return await database.collections.get<Food>('food').create((food: any) => {
+            food.foodId = foodData.foodId;
             food.name = foodData.name;
             food.calories = foodData.calories;
             food.carbs = foodData.carbs;
-            food.protein = foodData.protein;
-            food.fats = foodData.fats;
+            food.proteins = foodData.proteins;
+            food.fat = foodData.fat;
         });
     });
 };
 
 export const updateFood = async (food: Food, foodData: Partial<FoodData>): Promise<Food> => {
-    return await database.action(async () => {
+    return await database.write(async () => {
         await food.update((f) => {
+            f.foodId = foodData.foodId ?? f.foodId;
             f.name = foodData.name ?? f.name;
             f.calories = foodData.calories ?? f.calories;
             f.carbs = foodData.carbs ?? f.carbs;
-            f.protein = foodData.protein ?? f.protein;
-            f.fats = foodData.fats ?? f.fats;
+            f.proteins = foodData.proteins ?? f.proteins;
+            f.fat = foodData.fat ?? f.fat;
         });
         return food;
     });
 };
 
 export const deleteFood = async (food: Food): Promise<Food> => {
-    return await database.action(async () => {
+    return await database.write(async () => {
         await food.markAsDeleted();
         return food;
     });
@@ -154,7 +177,7 @@ export const fetchServings = async (): Promise<Serving[]> => {
 };
 
 export const addServing = async (servingData: ServingData): Promise<Serving> => {
-    return await database.action(async () => {
+    return await database.write(async () => {
         return await database.collections.get<Serving>('servings').create((serving: any) => {
             serving.food.set(servingData.food);
             serving.name = servingData.name;
@@ -164,7 +187,7 @@ export const addServing = async (servingData: ServingData): Promise<Serving> => 
 };
 
 export const updateServing = async (serving: Serving, servingData: Partial<ServingData>): Promise<Serving> => {
-    return await database.action(async () => {
+    return await database.write(async () => {
         await serving.update((s) => {
             s.name = servingData.name ?? s.name;
             s.amount = servingData.amount ?? s.amount;
@@ -174,7 +197,7 @@ export const updateServing = async (serving: Serving, servingData: Partial<Servi
 };
 
 export const deleteServing = async (serving: Serving): Promise<Serving> => {
-    return await database.action(async () => {
+    return await database.write(async () => {
         await serving.markAsDeleted();
         return serving;
     });
@@ -186,35 +209,35 @@ export const fetchFoodItems = async (): Promise<FoodItem[]> => {
 };
 
 export const addFoodItem = async (foodItemData: FoodItemData): Promise<FoodItem> => {
-    return await database.action(async () => {
+    return await database.write(async () => {
         return await database.collections.get<FoodItem>('food_items').create((foodItem: any) => {
             foodItem.meal.set(foodItemData.meal);
-            foodItem.serving.set(foodItemData.serving);
             foodItem.food.set(foodItemData.food);
+            foodItem.serving.set(foodItemData.serving);
             foodItem.quantity = foodItemData.quantity;
             foodItem.calories = foodItemData.calories;
             foodItem.carbs = foodItemData.carbs;
-            foodItem.fats = foodItemData.fats;
-            foodItem.protein = foodItemData.protein;
+            foodItem.fat = foodItemData.fat;
+            foodItem.proteins = foodItemData.proteins;
         });
     });
 };
 
 export const updateFoodItem = async (foodItem: FoodItem, foodItemData: Partial<FoodItemData>): Promise<FoodItem> => {
-    return await database.action(async () => {
+    return await database.write(async () => {
         await foodItem.update((f) => {
             f.quantity = foodItemData.quantity ?? f.quantity;
             f.calories = foodItemData.calories ?? f.calories;
             f.carbs = foodItemData.carbs ?? f.carbs;
-            f.fats = foodItemData.fats ?? f.fats;
-            f.protein = foodItemData.protein ?? f.protein;
+            f.fat = foodItemData.fat ?? f.fat;
+            f.proteins = foodItemData.proteins ?? f.proteins;
         });
         return foodItem;
     });
 };
 
 export const deleteFoodItem = async (foodItem: FoodItem): Promise<FoodItem> => {
-    return await database.action(async () => {
+    return await database.write(async () => {
         await foodItem.markAsDeleted();
         return foodItem;
     });
